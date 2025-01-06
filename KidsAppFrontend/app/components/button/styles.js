@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: color.BoyColors.Primary,
         borderRadius: 10,
+        marginTop:30,
     },
     btnName: {
         padding: 10,

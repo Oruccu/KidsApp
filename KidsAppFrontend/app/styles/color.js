@@ -3,7 +3,7 @@ const BoyColors = {
     Secondary: "#EEEEEE",
     textColor:'#4C585B',
     iconColor:'#B4B4B8',
-
+    lightWhite: '#F6F5F2'
 
   };
   
