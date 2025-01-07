@@ -21,26 +21,20 @@
 ### **1. Back-End (ASP.NET Core Web API)**
 **Klasör Yapısı:**
 ```
-/InteractiveKidsAppBackend
-├── API (Web API projesi)
-│   ├── Controllers
-│   ├── Middleware
-│   ├── Program.cs
-│   ├── appsettings.json
+KidsAppBackend
 │
-├── Business (İş Mantığı)
-│   ├── Services
-│   ├── Interfaces
-│
-├── DataAccess (Veritabanı Erişimi)
-│   ├── Context
-│   ├── Repositories
-│
-├── Entities (Veritabanı Modelleri)
-│   ├── User.cs
-│   ├── GameResult.cs
-│   ├── StoryProgress.cs
-│   ├── AudioBook.cs
+├── Data
+│   ├── Entities
+│   │   ├── ParentUser.cs
+│   │   ├── ChildUser.cs
+│   │   ├── GameResult.cs
+│   │   ├── StoryProgress.cs
+│   │   ├── AudioBook.cs
+│   │   ├── AudioAnimal.cs
+│   │   └── BaseEntity.cs
+│   └── Enums
+│       └── GameType.cs
+
 ```
 
 **Temel Özellikler:**
@@ -64,7 +58,7 @@
 
 **Klasör Yapısı:**
 ```
-/InteractiveKidsAppFrontend
+/KidsAppFrontend
 ├── App.js
 ├── assets
 ├── components
@@ -119,7 +113,7 @@
 
 ### **Back-End (ASP.NET Core Web API):**
 ```bash
-cd InteractiveKidsAppBackend
+cd KidsAppBackend
 cd API
 # Bağımlılıkları yükle
  dotnet restore
@@ -129,7 +123,7 @@ cd API
 
 ### **Front-End (React Native + Expo):**
 ```bash
-cd InteractiveKidsAppFrontend
+cd KidsAppFrontend
 # Bağımlılıkları yükle
 npm install
 # Uygulamayı başlat
@@ -147,11 +141,6 @@ npx expo start
 
 ## 🤝 **Katkıda Bulunma**
 Katkıda bulunmak için lütfen bir **Pull Request** oluşturun veya bize ulaşın.
-
----
-
-## 📄 **Lisans**
-Bu proje **MIT Lisansı** altında yayınlanmıştır.
 
 ---
 
