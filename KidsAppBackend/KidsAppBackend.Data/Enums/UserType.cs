@@ -1,8 +1,8 @@
 namespace KidsAppBackend.Data.Enums
 {
-    public enum GameType
+    public enum UserType
     {
-        LearnAnimals,
-        LearnColor
+        Parent,
+        Child
     }
 }

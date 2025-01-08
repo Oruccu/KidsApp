@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KidsAppBackend", "KidsAppBackend", "{52708F14-9856-49F7-AF19-3D416649B4CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KidsAppBackend.Business", "KidsAppBackend\KidsAppBackend.Business\KidsAppBackend.Business.csproj", "{E413A572-ABEF-414B-AEF1-0F2373A365F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KidsAppBackend.Data", "KidsAppBackend\KidsAppBackend.Data\KidsAppBackend.Data.csproj", "{8AA00DF7-3661-47DF-895D-455568C34649}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KidsAppBackend.WebApi", "KidsAppBackend\KidsAppBackend.WebApi\KidsAppBackend.WebApi.csproj", "{B4B0E9C9-65E8-4E4D-A5BC-FA98792993AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E413A572-ABEF-414B-AEF1-0F2373A365F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E413A572-ABEF-414B-AEF1-0F2373A365F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E413A572-ABEF-414B-AEF1-0F2373A365F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E413A572-ABEF-414B-AEF1-0F2373A365F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AA00DF7-3661-47DF-895D-455568C34649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AA00DF7-3661-47DF-895D-455568C34649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AA00DF7-3661-47DF-895D-455568C34649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AA00DF7-3661-47DF-895D-455568C34649}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4B0E9C9-65E8-4E4D-A5BC-FA98792993AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4B0E9C9-65E8-4E4D-A5BC-FA98792993AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4B0E9C9-65E8-4E4D-A5BC-FA98792993AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4B0E9C9-65E8-4E4D-A5BC-FA98792993AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E413A572-ABEF-414B-AEF1-0F2373A365F4} = {52708F14-9856-49F7-AF19-3D416649B4CC}
+		{8AA00DF7-3661-47DF-895D-455568C34649} = {52708F14-9856-49F7-AF19-3D416649B4CC}
+		{B4B0E9C9-65E8-4E4D-A5BC-FA98792993AD} = {52708F14-9856-49F7-AF19-3D416649B4CC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09548E4F-B902-46EF-BDA1-D66C97683D5D}
+	EndGlobalSection
+EndGlobal

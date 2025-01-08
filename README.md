@@ -33,7 +33,13 @@ KidsAppBackend
 │   │   ├── AudioAnimal.cs
 │   │   └── BaseEntity.cs
 │   └── Enums
-│       └── GameType.cs
+│   |    └── GameType.cs
+|   |    └── ProgressStatus.cs
+|   |    └── UserType.cs
+|   |
+│   ├── Context
+│   │   ├── KidsAppDbContext.cs
+│   
 
 ```
 

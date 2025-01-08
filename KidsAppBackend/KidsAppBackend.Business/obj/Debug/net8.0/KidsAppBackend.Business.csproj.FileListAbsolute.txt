@@ -1,0 +1,16 @@
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/bin/Debug/net8.0/KidsAppBackend.Business.deps.json
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/bin/Debug/net8.0/KidsAppBackend.Business.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/bin/Debug/net8.0/KidsAppBackend.Business.pdb
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/bin/Debug/net8.0/KidsAppBackend.Data.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/bin/Debug/net8.0/KidsAppBackend.Data.pdb
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/KidsAppBackend.Business.csproj.AssemblyReference.cache
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/KidsAppBackend.Business.GeneratedMSBuildEditorConfig.editorconfig
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/KidsAppBackend.Business.AssemblyInfoInputs.cache
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/KidsAppBackend.Business.AssemblyInfo.cs
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/KidsAppBackend.Business.csproj.CoreCompileInputs.cache
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/KidsAppBackend.Business.sourcelink.json
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/KidsAppB.A0A08650.Up2Date
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/KidsAppBackend.Business.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/refint/KidsAppBackend.Business.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/KidsAppBackend.Business.pdb
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/obj/Debug/net8.0/ref/KidsAppBackend.Business.dll

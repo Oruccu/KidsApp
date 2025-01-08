@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "FiLmgphELx+1u0eyBPZK01hlULI7mDSo6WW+6GiTAXg=",
+  "Source": "KidsAppBackend.WebApi",
+  "BasePath": "_content/KidsAppBackend.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

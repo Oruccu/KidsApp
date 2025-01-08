@@ -1,5 +1,8 @@
-public class AudioBook : BaseEntity
+namespace KidsAppBackend.Data.Entities
 {
-    public string Title { get; set; }
-    public string AudioFileUrl { get; set; }
+    public class AudioBook : BaseEntity
+    {
+        public string Title { get; set; }
+        public string AudioFileUrl { get; set; }
+    }
 }

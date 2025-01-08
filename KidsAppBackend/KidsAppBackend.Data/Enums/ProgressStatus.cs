@@ -1,7 +1,12 @@
-public enum ProgressStatus
+
+namespace KidsAppBackend.Data.Enums
 {
-    NotStarted,
-    InProgress,
-    Completed
+    public enum ProgressStatus
+    {
+        NotStarted,
+        InProgress,
+        Completed
+    }
 }
+
 
