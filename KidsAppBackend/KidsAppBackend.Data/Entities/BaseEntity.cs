@@ -8,7 +8,7 @@ namespace KidsAppBackend.Data.Entities
     public abstract class BaseEntity
     {
         public int Id { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
 }
@@ -20,8 +20,7 @@ public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEnt
     {
         builder.HasKey(e => e.Id);
         builder.Property(e => e.CreatedAt)
-               .IsRequired()
-               .HasDefaultValueSql("GETUTCDATE()");
+               .IsRequired();
 
         builder.Property(e => e.UpdatedAt);
     }

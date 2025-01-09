@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KidsAppBackend.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99cae38c4d6e36fa20e6938dbaffc2b853cfd0da")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6dad866ea6b0bd7726bc35486e1993623a891b84")]
 [assembly: System.Reflection.AssemblyProductAttribute("KidsAppBackend.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KidsAppBackend.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

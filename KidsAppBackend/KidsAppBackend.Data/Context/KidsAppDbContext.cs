@@ -9,6 +9,7 @@ namespace KidsAppBackend.Data
         public KidsAppDbContext(DbContextOptions<KidsAppDbContext> options)
             : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         // Veritabanı tablolarını temsil eden DbSet özellikleri
@@ -44,7 +45,7 @@ namespace KidsAppBackend.Data
                     Id = 1,
                     Email = "parent1@example.com",
                     Password = "EncryptedPassword456",
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.Now,
                 });
 
             modelBuilder.Entity<ChildUser>().HasData(
@@ -55,7 +56,7 @@ namespace KidsAppBackend.Data
                     Username = "Child1",
                     Password = "EncryptedPassword123",
                     ParentUserId = 1,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.Now
                 });
 
             modelBuilder.Entity<GameResult>().HasData(
@@ -65,8 +66,8 @@ namespace KidsAppBackend.Data
                     ChildId = 1,
                     GameType = Data.Enums.GameType.LearnAnimals,
                     Score = 85,
-                    DatePlayed = DateTime.UtcNow,
-                    CreatedAt = DateTime.UtcNow
+                    DatePlayed = DateTime.Now,
+                    CreatedAt = DateTime.Now
                 });
         }
 

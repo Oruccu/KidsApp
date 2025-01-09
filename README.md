@@ -43,9 +43,12 @@ KidsAppBackend
 
 ```
 
+dotnet ef migrations add InitialCreate --startup-project ../KidsAppBackend.WebApi
+dotnet ef database update --startup-project ../KidsAppBackend.WebApi
+
 **Temel Özellikler:**
 - JWT tabanlı kimlik doğrulama.
-- API endpoint'leri:
+- API endpoint'leri
    - `/api/auth/register` → Kullanıcı kaydı.
    - `/api/auth/login` → JWT ile giriş.
    - `/api/games/saveResult` → Oyun sonucu kaydı.
