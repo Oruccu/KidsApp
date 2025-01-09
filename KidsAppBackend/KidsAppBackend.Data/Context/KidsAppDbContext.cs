@@ -1,6 +1,6 @@
-using KidsAppBackend.Data.Entities;
-using KidsAppBackend.Data.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using KidsAppBackend.Data.Entities;
 
 namespace KidsAppBackend.Data
 {
@@ -11,7 +11,7 @@ namespace KidsAppBackend.Data
         {
         }
 
-        // DbSet Properties
+        // Veritabanı tablolarını temsil eden DbSet özellikleri
         public DbSet<ParentUser> ParentUsers { get; set; }
         public DbSet<ChildUser> ChildUsers { get; set; }
         public DbSet<KidsMode> KidsModes { get; set; }
@@ -24,51 +24,28 @@ namespace KidsAppBackend.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Entity Configurations
-            modelBuilder.Entity<ParentUser>(entity =>
-            {
-                entity.HasMany(p => p.Children)
-                      .WithOne(c => c.Parent)
-                      .HasForeignKey(c => c.ParentUserId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
+            // Varlıkların yapılandırmaları
+            modelBuilder.ApplyConfiguration(new ParentUserConfiguration());
+            modelBuilder.ApplyConfiguration(new ChildUserConfiguration());
+            modelBuilder.ApplyConfiguration(new KidsModeConfiguration());
+            modelBuilder.ApplyConfiguration(new GameResultConfiguration());
+            modelBuilder.ApplyConfiguration(new StoryProgressConfiguration());
+            modelBuilder.ApplyConfiguration(new AudioBookConfiguration());
+            modelBuilder.ApplyConfiguration(new AudioAnimalConfiguration());
 
-            modelBuilder.Entity<ChildUser>(entity =>
-            {
-                entity.HasMany(c => c.GameResults)
-                      .WithOne(g => g.Child)
-                      .HasForeignKey(g => g.ChildId)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasMany(c => c.StoryProgresses)
-                      .WithOne(s => s.Child)
-                      .HasForeignKey(s => s.ChildId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<GameResult>(entity =>
-            {
-                entity.Property(g => g.GameType)
-                      .HasConversion<string>(); 
-            });
-
-            // Seed Data (Opsiyonel)
             SeedData(modelBuilder);
         }
 
         private void SeedData(ModelBuilder modelBuilder)
         {
-            
-            modelBuilder.Entity<GameResult>().HasData(
-                new GameResult
+            modelBuilder.Entity<ParentUser>().HasData(
+                new ParentUser
                 {
                     Id = 1,
-                    ChildId = 1,
-                    GameType = GameType.LearnAnimals,
-                    Score = 85,
-                    DatePlayed = DateTime.UtcNow
-                }
-            );
+                    Email = "parent1@example.com",
+                    Password = "EncryptedPassword456",
+                    CreatedAt = DateTime.UtcNow
+                });
 
             modelBuilder.Entity<ChildUser>().HasData(
                 new ChildUser
@@ -77,18 +54,23 @@ namespace KidsAppBackend.Data
                     Email = "child1@example.com",
                     Username = "Child1",
                     Password = "EncryptedPassword123",
-                    ParentUserId = 1
-                }
-            );
+                    ParentUserId = 1,
+                    CreatedAt = DateTime.UtcNow
+                });
 
-            modelBuilder.Entity<ParentUser>().HasData(
-                new ParentUser
+            modelBuilder.Entity<GameResult>().HasData(
+                new GameResult
                 {
                     Id = 1,
-                    Email = "parent1@example.com",
-                    Password = "EncryptedPassword456"
-                }
-            );
+                    ChildId = 1,
+                    GameType = Data.Enums.GameType.LearnAnimals,
+                    Score = 85,
+                    DatePlayed = DateTime.UtcNow,
+                    CreatedAt = DateTime.UtcNow
+                });
         }
+
     }
+
+
 }

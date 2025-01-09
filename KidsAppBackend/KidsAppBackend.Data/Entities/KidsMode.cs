@@ -1,5 +1,8 @@
 using System;
 using KidsAppBackend.Data.Enums;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using KidsAppBackend.Data.Entities;
 
 namespace KidsAppBackend.Data.Entities
 {
@@ -12,3 +15,19 @@ namespace KidsAppBackend.Data.Entities
     }
 
 }
+
+// KidsMode Configuration
+public class KidsModeConfiguration : BaseConfiguration<KidsMode>
+{
+    public override void Configure(EntityTypeBuilder<KidsMode> builder)
+    {
+        base.Configure(builder);
+        builder.Property(k => k.Boy).IsRequired();
+        builder.Property(k => k.Girl).IsRequired();
+
+        builder.HasOne(k => k.Child)
+               .WithMany()
+               .HasForeignKey(k => k.ChildId);
+    }
+}
+
