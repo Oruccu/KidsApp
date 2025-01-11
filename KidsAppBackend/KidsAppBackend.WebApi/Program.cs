@@ -1,4 +1,6 @@
 using KidsAppBackend.Data;
+using KidsAppBackend.Data.Repositories;
+using KidsAppBackend.Data.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<KidsAppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); //Generic olduğu için -> Typeof
+builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
