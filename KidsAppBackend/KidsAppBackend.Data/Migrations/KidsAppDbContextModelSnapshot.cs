@@ -43,6 +43,14 @@ namespace KidsAppBackend.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -65,6 +73,14 @@ namespace KidsAppBackend.Data.Migrations
                         .HasColumnType("character varying(200)");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Title")
@@ -96,6 +112,14 @@ namespace KidsAppBackend.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<int>("ParentUserId")
                         .HasColumnType("integer");
 
@@ -122,8 +146,9 @@ namespace KidsAppBackend.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 9, 13, 55, 38, 668, DateTimeKind.Local).AddTicks(2250),
+                            CreatedAt = new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7780),
                             Email = "child1@example.com",
+                            IsDeleted = false,
                             ParentUserId = 1,
                             Password = "EncryptedPassword123",
                             Username = "Child1"
@@ -150,6 +175,14 @@ namespace KidsAppBackend.Data.Migrations
                     b.Property<int>("GameType")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<int>("Score")
                         .HasColumnType("integer");
 
@@ -167,9 +200,10 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 1,
                             ChildId = 1,
-                            CreatedAt = new DateTime(2025, 1, 9, 13, 55, 38, 668, DateTimeKind.Local).AddTicks(2260),
-                            DatePlayed = new DateTime(2025, 1, 9, 13, 55, 38, 668, DateTimeKind.Local).AddTicks(2260),
+                            CreatedAt = new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7800),
+                            DatePlayed = new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7800),
                             GameType = 0,
+                            IsDeleted = false,
                             Score = 85
                         });
                 });
@@ -193,6 +227,14 @@ namespace KidsAppBackend.Data.Migrations
 
                     b.Property<bool>("Girl")
                         .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -220,6 +262,14 @@ namespace KidsAppBackend.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -236,8 +286,9 @@ namespace KidsAppBackend.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 9, 13, 55, 38, 668, DateTimeKind.Local).AddTicks(2130),
+                            CreatedAt = new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7650),
                             Email = "parent1@example.com",
+                            IsDeleted = false,
                             Password = "EncryptedPassword456"
                         });
                 });
@@ -257,6 +308,14 @@ namespace KidsAppBackend.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("StoryId")

@@ -19,7 +19,7 @@ const Input = ({ placeholder, onChangeText, value, iconName }) => {
           value={value}
           style={styles.input}
           placeholderTextColor={color.BoyColors.textColor}
-
+          autoCapitalize='none'
         />
       </View>
     </View>

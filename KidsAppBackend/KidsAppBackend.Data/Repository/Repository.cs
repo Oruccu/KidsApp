@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -23,29 +22,33 @@ namespace KidsAppBackend.Data.Repositories
         // Yeni bir kayıt ekler
         public void Add(TEntity entity)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
             entity.CreatedAt = DateTime.Now;
             _dbSet.Add(entity);
-            //_db.SaveChanges();
         }
 
         // Soft Delete yapar
         public void Delete(TEntity entity)
         {
-            entity.ModifiedDate = DateTime.Now;
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.UpdatedAt = DateTime.Now;
             entity.IsDeleted = true;
             _dbSet.Update(entity);
-            //_db.SaveChanges();
         }
 
         // ID ile Soft Delete yapar
         public void Delete(int id)
         {
             var entity = _dbSet.Find(id);
+            if (entity == null)
+            {
+                throw new KeyNotFoundException($"Entity with id {id} not found.");
+            }
             Delete(entity);
         }
 
         // Belirli bir filtreye göre tek bir kayıt döndürür
-        public TEntity Get(Expression<Func<TEntity, bool>> predicate)
+        public TEntity? Get(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbSet.FirstOrDefault(predicate);
         }
@@ -53,11 +56,16 @@ namespace KidsAppBackend.Data.Repositories
         // Belirli bir filtreye göre tüm kayıtları döndürür
         public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate = null)
         {
-            return predicate == null ? _dbSet : _dbSet.Where(predicate);
+            IQueryable<TEntity> query = _dbSet.Where(e => !e.IsDeleted);
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+            return query;
         }
 
         // ID'ye göre kayıt döndürür
-        public TEntity GetEntity(int id)
+        public TEntity? GetEntity(int id)
         {
             return _dbSet.FirstOrDefault(e => e.Id == id && !e.IsDeleted);
         }
@@ -65,11 +73,9 @@ namespace KidsAppBackend.Data.Repositories
         // Mevcut bir kaydı günceller
         public void Update(TEntity entity)
         {
-            entity.ModifiedDate = DateTime.Now;
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.UpdatedAt = DateTime.Now;
             _dbSet.Update(entity);
-            //_db.SaveChanges();
         }
     }
 }
-
-// _db.SaveChanges()'lar transaction durumları göz önüne bulunarak UnitOfWork adı verdiğimiz başka bir pattern içerisinde yönetilecek.

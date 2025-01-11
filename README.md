@@ -27,7 +27,7 @@
 ```
 KidsAppBackend
 │
-├── Data
+├── KidsAppBackend.Data
 │   ├── Entities
 │   │   ├── ParentUser.cs
 │   │   ├── ChildUser.cs
@@ -44,7 +44,9 @@ KidsAppBackend
 │   ├── Context
 │   │   ├── KidsAppDbContext.cs
 │
-
+├── KidsAppBackend.Business
+    ├── Operations
+     
 ```
 
 ```

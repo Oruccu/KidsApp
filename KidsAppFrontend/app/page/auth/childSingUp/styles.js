@@ -1,18 +1,21 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container:{
-        flex: 1, 
-        justifyContent: 'center', 
-        alignItems: 'center' 
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems:'center'
     },
-    forgotPassword:{
-        justifyContent:'flex-end',
-        flexDirection: 'row', 
-        width:'100%',
-        marginRight:50,
-
-     }
+    forgotPassword: {
+        alignItems: 'flex-end',
+        marginVertical: 8,
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        marginBottom: 8,
+        marginLeft: 4,
+    },
 });
 
-export default styles
+export default styles;

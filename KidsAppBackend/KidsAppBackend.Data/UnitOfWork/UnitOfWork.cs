@@ -1,51 +1,83 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using KidsAppBackend.Data.Repositories;
 
 namespace KidsAppBackend.Data.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly KidsAppDbContext _db;
-        private IDbContextTransaction _transaction;
+        private readonly KidsAppDbContext _context;
+        private IDbContextTransaction? _transaction;
 
-        public UnitOfWork(KidsAppDbContext db){
-            _db = db;
+        public UnitOfWork(KidsAppDbContext context)
+        {
+            _context = context;
         }
 
-        public async Task BeginTransaction()
+        public async Task BeginTransactionAsync()
         {
-            _transaction = await _db.Database.BeginTransactionAsync();
+            if (_transaction == null)
+            {
+                _transaction = await _context.Database.BeginTransactionAsync();
+            }
         }
 
-        public async Task CommitTransaction()
+        public async Task CommitTransactionAsync()
         {
-            await _transaction.CommitAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+                if (_transaction != null)
+                {
+                    await _transaction.CommitAsync();
+                }
+            }
+            catch
+            {
+                await RollBackTransactionAsync();
+                throw;
+            }
+            finally
+            {
+                await DisposeTransactionAsync();
+            }
         }
 
-        public void Dispose()
+        public async Task RollBackTransactionAsync()
         {
-            _db.Dispose();
-            // Garbage Colletor'a sen bunu temizleyebilirsin iznini verdiğimiz yer.
-            // O an silmiyor - Silinebilir yapıyoruz.
-            //GC.Collect();
-            // GC.WaitForPendingFinalizers();
-            // Bu kodlar Garbage Collector'ı direk çalıştırır.
-        }
-
-        public async Task RollBackTransaction()
-        {
-            await _transaction.RollbackAsync();
+            try
+            {
+                if (_transaction != null)
+                {
+                    await _transaction.RollbackAsync();
+                }
+            }
+            finally
+            {
+                await DisposeTransactionAsync();
+            }
         }
 
         public async Task<int> SaveChangesAsync()
         {
-            return await _db.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
+        }
+
+        private async Task DisposeTransactionAsync()
+        {
+            if (_transaction != null)
+            {
+                await _transaction.DisposeAsync();
+                _transaction = null;
+            }
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+            _transaction?.Dispose();
         }
     }
 }

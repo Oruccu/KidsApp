@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "0A+gbyBwU7I=",
+  "dgSpecHash": "IAj7zZxv+Dc=",
   "success": true,
   "projectFilePath": "/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Business/KidsAppBackend.Business.csproj",
   "expectedPackageFiles": [
+    "/Users/aysenuroruccu/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/Users/aysenuroruccu/.nuget/packages/microsoft.entityframeworkcore/8.0.11/microsoft.entityframeworkcore.8.0.11.nupkg.sha512",
     "/Users/aysenuroruccu/.nuget/packages/microsoft.entityframeworkcore.abstractions/8.0.11/microsoft.entityframeworkcore.abstractions.8.0.11.nupkg.sha512",
     "/Users/aysenuroruccu/.nuget/packages/microsoft.entityframeworkcore.analyzers/8.0.11/microsoft.entityframeworkcore.analyzers.8.0.11.nupkg.sha512",

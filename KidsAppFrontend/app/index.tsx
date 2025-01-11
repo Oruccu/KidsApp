@@ -26,8 +26,8 @@ function MainTab() {
   function AuthStack() {
     return (
       <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen name="ChildSingUp" component={ChildSingUp} />
         <Stack.Screen name="ParentSingUp" component={ParentSingUp} />
+        <Stack.Screen name="ChildSingUp" component={ChildSingUp} />
         <Stack.Screen name="SingIn" component={SingIn} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="KidsMode" component={KidsMode} />

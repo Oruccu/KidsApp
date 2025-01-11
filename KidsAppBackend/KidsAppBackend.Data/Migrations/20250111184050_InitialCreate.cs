@@ -21,7 +21,9 @@ namespace KidsAppBackend.Data.Migrations
                     AnimalName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     AudioFileUrl = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -37,7 +39,9 @@ namespace KidsAppBackend.Data.Migrations
                     Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     AudioFileUrl = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,7 +57,9 @@ namespace KidsAppBackend.Data.Migrations
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Password = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,7 +77,9 @@ namespace KidsAppBackend.Data.Migrations
                     Password = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     ParentUserId = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -95,7 +103,9 @@ namespace KidsAppBackend.Data.Migrations
                     Score = table.Column<int>(type: "integer", nullable: false),
                     DatePlayed = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -118,7 +128,9 @@ namespace KidsAppBackend.Data.Migrations
                     Girl = table.Column<bool>(type: "boolean", nullable: false),
                     ChildId = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -141,7 +153,9 @@ namespace KidsAppBackend.Data.Migrations
                     StoryId = table.Column<int>(type: "integer", nullable: false),
                     CompletionPercentage = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    ModifiedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -156,18 +170,18 @@ namespace KidsAppBackend.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "ParentUsers",
-                columns: new[] { "Id", "CreatedAt", "Email", "Password", "UpdatedAt" },
-                values: new object[] { 1, new DateTime(2025, 1, 9, 13, 55, 38, 668, DateTimeKind.Local).AddTicks(2130), "parent1@example.com", "EncryptedPassword456", null });
+                columns: new[] { "Id", "CreatedAt", "Email", "ModifiedDate", "Password", "UpdatedAt" },
+                values: new object[] { 1, new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7650), "parent1@example.com", null, "EncryptedPassword456", null });
 
             migrationBuilder.InsertData(
                 table: "ChildUsers",
-                columns: new[] { "Id", "CreatedAt", "Email", "ParentUserId", "Password", "UpdatedAt", "Username" },
-                values: new object[] { 1, new DateTime(2025, 1, 9, 13, 55, 38, 668, DateTimeKind.Local).AddTicks(2250), "child1@example.com", 1, "EncryptedPassword123", null, "Child1" });
+                columns: new[] { "Id", "CreatedAt", "Email", "ModifiedDate", "ParentUserId", "Password", "UpdatedAt", "Username" },
+                values: new object[] { 1, new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7780), "child1@example.com", null, 1, "EncryptedPassword123", null, "Child1" });
 
             migrationBuilder.InsertData(
                 table: "GameResults",
-                columns: new[] { "Id", "ChildId", "CreatedAt", "DatePlayed", "GameType", "Score", "UpdatedAt" },
-                values: new object[] { 1, 1, new DateTime(2025, 1, 9, 13, 55, 38, 668, DateTimeKind.Local).AddTicks(2260), new DateTime(2025, 1, 9, 13, 55, 38, 668, DateTimeKind.Local).AddTicks(2260), 0, 85, null });
+                columns: new[] { "Id", "ChildId", "CreatedAt", "DatePlayed", "GameType", "ModifiedDate", "Score", "UpdatedAt" },
+                values: new object[] { 1, 1, new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7800), new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7800), 0, null, 85, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChildUsers_ParentUserId",

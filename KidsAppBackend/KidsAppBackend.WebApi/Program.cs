@@ -1,24 +1,36 @@
-using KidsAppBackend.Data;
 using KidsAppBackend.Data.Repositories;
 using KidsAppBackend.Data.UnitOfWork;
+using KidsAppBackend.Business.Operations.User;
 using Microsoft.EntityFrameworkCore;
+using KidsAppBackend.Data;
+
+// Program.cs veya Startup.cs
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+// DbContext kayıt
 builder.Services.AddDbContext<KidsAppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); //Generic olduğu için -> Typeof
-builder.Services.AddScoped<IUnitOfWork, IUnitOfWork>();
+// Repository pattern için açık generik kayıt
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+// UnitOfWork kayıt
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// UserService kayıt
+builder.Services.AddScoped<IUserService, UserManager>();
+
+// Diğer servis kayıtları...
+builder.Services.AddControllers();
+
+// Swagger ve diğer middleware kayıtları...
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware Kullanımı
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -27,29 +39,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseAuthorization();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
