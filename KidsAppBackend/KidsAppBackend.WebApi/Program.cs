@@ -76,6 +76,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-// user1@example.com
-// test1234

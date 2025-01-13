@@ -31,4 +31,22 @@ export const registerChild = async (email, password, userName, parentUserName) =
   }
 };
 
+export const login = async (email, password) => {
+  try {
+    const response = await api.post(`/api/auth/login`, {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.log('Error Response:', error.response.data);
+      throw new Error(error.response.data.message || 'Login failed.');
+    } else if (error.request) {
+      throw new Error('No response from server.');
+    } else {
+      throw new Error('An error occurred.');
+    }
+  }
+};
 
