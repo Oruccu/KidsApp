@@ -15,8 +15,12 @@ namespace KidsAppBackend.Business.Utilities
 
         public JwtTokenGenerator(IConfiguration configuration)
         {
-            _secretKey = configuration["JwtSettings:SecretKey"];
-            _tokenExpirationMinutes = int.Parse(configuration["JwtSettings:TokenExpirationMinutes"]);
+            _secretKey = configuration["JwtSettings:SecretKey"]
+                  ?? throw new ArgumentNullException("JwtSettings:SecretKey is missing in configuration");
+            if (!int.TryParse(configuration["JwtSettings:TokenExpirationMinutes"], out _tokenExpirationMinutes))
+            {
+                throw new ArgumentException("JwtSettings:TokenExpirationMinutes must be a valid integer.");
+            }
         }
 
         public string GenerateToken(ChildUser user)
@@ -46,5 +50,3 @@ namespace KidsAppBackend.Business.Utilities
 }
 
 
-// user@example.com
-// test1234

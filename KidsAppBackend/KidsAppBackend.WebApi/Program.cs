@@ -6,16 +6,20 @@ using KidsAppBackend.Data.UnitOfWork;
 using KidsAppBackend.Business.Operations.User;
 using Microsoft.EntityFrameworkCore;
 using KidsAppBackend.Data;
+using KidsAppBackend.Business.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
 
+Console.WriteLine($"JwtSettings Section Exists: {jwtSettings.Exists()}");
+Console.WriteLine($"SecretKey Value: {secretKey}");
+
 builder.Services.AddDbContext<KidsAppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserManager>();
@@ -28,6 +32,16 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
+    var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+    var secretKey = jwtSettings["SecretKey"];
+    Console.WriteLine($"SecretKey: {secretKey}");
+
+    if (string.IsNullOrEmpty(secretKey))
+    {
+        Console.WriteLine("JwtSettings:SecretKey is not found in the configuration.");
+        throw new Exception("JwtSettings:SecretKey is not configured correctly.");
+    }
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = false,
@@ -62,3 +76,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+// user1@example.com
+// test1234

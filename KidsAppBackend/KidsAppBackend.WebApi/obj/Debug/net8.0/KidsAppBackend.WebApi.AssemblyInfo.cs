@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("9897edd2-4953-491d-9921-c64574ea8e0b")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("KidsAppBackend.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+758a01207fce57d1962660ad8b3921361c4b7771")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5782d97041503fc3ec78aca71c5d3924aa3eeec")]
 [assembly: System.Reflection.AssemblyProductAttribute("KidsAppBackend.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KidsAppBackend.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
