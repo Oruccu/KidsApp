@@ -5,10 +5,10 @@ import Home from "@/app/page/home";
 import Settings from "@/app/page/settings";
 import Story from "@/app/page/story";
 
-import ChildSingUp from "@/app/page/auth/childSingUp";
-import ParentSingUp from "@/app/page/auth/parentSingUp";
+import ChildSignUp from "@/app/page/auth/childSignUp";
+
 import KidsMode from "@/app/page/kidsMode";
-import SingIn from "@/app/page/auth/singIn";
+import SignIn from "@/app/page/auth/signIn";
 import ResetPassword from "@/app/page/auth/resetPassword";
 
 const Tab = createBottomTabNavigator();
@@ -26,9 +26,8 @@ function MainTab() {
   function AuthStack() {
     return (
       <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen name="ParentSingUp" component={ParentSingUp} />
-        <Stack.Screen name="ChildSingUp" component={ChildSingUp} />
-        <Stack.Screen name="SingIn" component={SingIn} />
+        <Stack.Screen name="ChildSignUp" component={ChildSignUp} />
+        <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="KidsMode" component={KidsMode} />
       </Stack.Navigator>

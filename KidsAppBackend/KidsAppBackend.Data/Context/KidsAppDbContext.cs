@@ -13,7 +13,6 @@ namespace KidsAppBackend.Data
         }
 
         // Veritabanı tablolarını temsil eden DbSet özellikleri
-        public DbSet<ParentUser> ParentUsers { get; set; }
         public DbSet<ChildUser> ChildUsers { get; set; }
         public DbSet<KidsMode> KidsModes { get; set; }
         public DbSet<GameResult> GameResults { get; set; }
@@ -24,9 +23,6 @@ namespace KidsAppBackend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // Varlıkların yapılandırmaları
-            modelBuilder.ApplyConfiguration(new ParentUserConfiguration());
             modelBuilder.ApplyConfiguration(new ChildUserConfiguration());
             modelBuilder.ApplyConfiguration(new KidsModeConfiguration());
             modelBuilder.ApplyConfiguration(new GameResultConfiguration());
@@ -39,14 +35,6 @@ namespace KidsAppBackend.Data
 
         private void SeedData(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ParentUser>().HasData(
-                new ParentUser
-                {
-                    Id = 1,
-                    Email = "parent1@example.com",
-                    Password = "EncryptedPassword456",
-                    CreatedAt = DateTime.Now,
-                });
 
             modelBuilder.Entity<ChildUser>().HasData(
                 new ChildUser
@@ -54,8 +42,8 @@ namespace KidsAppBackend.Data
                     Id = 1,
                     Email = "child1@example.com",
                     Username = "Child1",
-                    Password = "EncryptedPassword123",
-                    ParentUserId = 1,
+                    Password = "Test123",
+                    ParentUserName = "Parent1",
                     CreatedAt = DateTime.Now
                 });
 

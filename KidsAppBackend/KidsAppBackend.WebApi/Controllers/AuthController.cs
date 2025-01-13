@@ -18,31 +18,6 @@ namespace KidsAppBackend.WebApi.Controllers
             _userService = userService;
         }
 
-        // Ebeveyn Kayıt Endpoint'i
-        [HttpPost("registerParent")]
-        public async Task<IActionResult> RegisterParent([FromBody] ParentRegisterRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid data.");
-            }
-
-            var addParentDto = new AddParentDto
-            {
-                Email = request.Email,
-                Password = request.Password
-            };
-
-            var result = await _userService.AddParent(addParentDto);
-            if (!result.IsSucced)
-            {
-                return BadRequest(result.Message);
-            }
-
-            return Ok(new { IsSucced = result.IsSucced, Message = result.Message });
-        }
-
-        // Çocuk Kayıt Endpoint'i
         [HttpPost("registerChild")]
         public async Task<IActionResult> RegisterChild([FromBody] ChildRegisterRequest request)
         {
@@ -51,21 +26,31 @@ namespace KidsAppBackend.WebApi.Controllers
                 return BadRequest("Invalid data.");
             }
 
+
             var addChildDto = new AddChildDto
             {
                 Email = request.Email,
                 Password = request.Password,
                 UserName = request.UserName,
-                ParentUserId = request.ParentUserId
+                ParentUserName = request.ParentUserName,
             };
 
             var result = await _userService.AddChild(addChildDto);
             if (!result.IsSucced)
             {
+                Console.WriteLine(result.Message);
                 return BadRequest(result.Message);
             }
+            Console.WriteLine($"IsSucced: {result.IsSucced}, Message: {result.Message}");
 
-            return Ok(new { IsSucced = result.IsSucced, Message = result.Message });
+            return Ok(
+                new
+                {
+                    IsSucced = result.IsSucced,
+                    Message = result.Message
+                });
         }
+
+
     }
 }

@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
         backgroundColor: color.BoyColors.Primary,
         borderRadius: 10,
         marginTop:30,
+        justifyContent:'center',
+        alignItems:'center'
     },
     btnName: {
         padding: 10,

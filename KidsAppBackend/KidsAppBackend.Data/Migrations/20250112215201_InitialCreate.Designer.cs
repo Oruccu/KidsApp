@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KidsAppBackend.Data.Migrations
 {
     [DbContext(typeof(KidsAppDbContext))]
-    [Migration("20250111184050_InitialCreate")]
+    [Migration("20250112215201_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -123,8 +123,9 @@ namespace KidsAppBackend.Data.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("ParentUserId")
-                        .HasColumnType("integer");
+                    b.Property<string>("ParentUserName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -141,19 +142,17 @@ namespace KidsAppBackend.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentUserId");
-
                     b.ToTable("ChildUsers");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7780),
+                            CreatedAt = new DateTime(2025, 1, 13, 0, 52, 1, 747, DateTimeKind.Local).AddTicks(2400),
                             Email = "child1@example.com",
                             IsDeleted = false,
-                            ParentUserId = 1,
-                            Password = "EncryptedPassword123",
+                            ParentUserName = "Parent1",
+                            Password = "Test123",
                             Username = "Child1"
                         });
                 });
@@ -203,8 +202,8 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 1,
                             ChildId = 1,
-                            CreatedAt = new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7800),
-                            DatePlayed = new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7800),
+                            CreatedAt = new DateTime(2025, 1, 13, 0, 52, 1, 747, DateTimeKind.Local).AddTicks(2490),
+                            DatePlayed = new DateTime(2025, 1, 13, 0, 52, 1, 747, DateTimeKind.Local).AddTicks(2490),
                             GameType = 0,
                             IsDeleted = false,
                             Score = 85
@@ -249,53 +248,6 @@ namespace KidsAppBackend.Data.Migrations
                     b.ToTable("KidsModes");
                 });
 
-            modelBuilder.Entity("KidsAppBackend.Data.Entities.ParentUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ParentUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 11, 21, 40, 50, 79, DateTimeKind.Local).AddTicks(7650),
-                            Email = "parent1@example.com",
-                            IsDeleted = false,
-                            Password = "EncryptedPassword456"
-                        });
-                });
-
             modelBuilder.Entity("KidsAppBackend.Data.Entities.StoryProgress", b =>
                 {
                     b.Property<int>("Id")
@@ -332,17 +284,6 @@ namespace KidsAppBackend.Data.Migrations
                     b.HasIndex("ChildId");
 
                     b.ToTable("StoryProgresses");
-                });
-
-            modelBuilder.Entity("KidsAppBackend.Data.Entities.ChildUser", b =>
-                {
-                    b.HasOne("KidsAppBackend.Data.Entities.ParentUser", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("KidsAppBackend.Data.Entities.GameResult", b =>
@@ -383,11 +324,6 @@ namespace KidsAppBackend.Data.Migrations
                     b.Navigation("GameResults");
 
                     b.Navigation("StoryProgresses");
-                });
-
-            modelBuilder.Entity("KidsAppBackend.Data.Entities.ParentUser", b =>
-                {
-                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

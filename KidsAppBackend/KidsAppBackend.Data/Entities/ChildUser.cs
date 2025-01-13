@@ -9,16 +9,12 @@ namespace KidsAppBackend.Data.Entities
         public string Email { get; set; } = string.Empty;
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-        public int ParentUserId { get; set; }
-        
-        // Bu satırı "new ParentUser()" ile başlatmayın:
-        public ParentUser Parent { get; set; } 
+        public string ParentUserName { get; set; }
 
         public ICollection<GameResult> GameResults { get; set; } = new List<GameResult>();
         public ICollection<StoryProgress> StoryProgresses { get; set; } = new List<StoryProgress>();
     }
 
-    // ChildUser Configuration
     public class ChildUserConfiguration : BaseConfiguration<ChildUser>
     {
         public override void Configure(EntityTypeBuilder<ChildUser> builder)
@@ -36,9 +32,6 @@ namespace KidsAppBackend.Data.Entities
                    .IsRequired()
                    .HasMaxLength(100);
 
-            builder.HasOne(c => c.Parent)
-                   .WithMany(p => p.Children)
-                   .HasForeignKey(c => c.ParentUserId);
         }
     }
 }

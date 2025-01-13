@@ -9,7 +9,7 @@ using KidsAppBackend.Business.Types;
 namespace KidsAppBackend.Business.Operations.User
 {
     public interface IUserService {
-        Task<ServiceMessage> AddParent(AddParentDto dto);
+
         Task<ServiceMessage> AddChild(AddChildDto dto);
     }
 }

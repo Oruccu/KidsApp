@@ -17,6 +17,6 @@ namespace KidsAppBackend.WebApi.Models
         public string UserName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "ParentUserId gereklidir.")]
-        public int ParentUserId { get; set; }
+        public string ParentUserName { get; set; } = string.Empty;
     }
 }
