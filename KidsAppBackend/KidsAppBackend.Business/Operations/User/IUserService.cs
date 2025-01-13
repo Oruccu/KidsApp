@@ -11,5 +11,6 @@ namespace KidsAppBackend.Business.Operations.User
     public interface IUserService {
 
         Task<ServiceMessage> AddChild(AddChildDto dto);
+        Task<ResultDto> Login(LoginDto loginDto);
     }
 }

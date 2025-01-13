@@ -9,7 +9,6 @@ const api = axios.create({
   },
 });
 
-
 export const registerChild = async (email, password, userName, parentUserName) => {
   try {
     const response = await api.post(`/api/auth/registerChild`, {

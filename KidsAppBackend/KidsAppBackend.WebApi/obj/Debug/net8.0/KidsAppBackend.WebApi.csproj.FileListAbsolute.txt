@@ -1,3 +1,11 @@
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.csproj.AssemblyReference.cache
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.GeneratedMSBuildEditorConfig.editorconfig
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.AssemblyInfoInputs.cache
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.AssemblyInfo.cs
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.csproj.CoreCompileInputs.cache
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.MvcApplicationPartsAssemblyInfo.cs
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.MvcApplicationPartsAssemblyInfo.cache
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.sourcelink.json
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/appsettings.Development.json
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/appsettings.json
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/KidsAppBackend.WebApi
@@ -5,7 +13,9 @@
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/KidsAppBackend.WebApi.runtimeconfig.json
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/KidsAppBackend.WebApi.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/KidsAppBackend.WebApi.pdb
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/BCrypt.Net-Next.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Humanizer.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.CodeAnalysis.dll
@@ -23,6 +33,12 @@
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.Extensions.Logging.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.OpenApi.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Mono.TextTemplating.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Npgsql.dll
@@ -36,6 +52,7 @@
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/System.Composition.Hosting.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/System.Composition.Runtime.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/System.Composition.TypedParts.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.resources.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.resources.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.resources.dll
@@ -92,14 +109,6 @@
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/KidsAppBackend.Data.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/KidsAppBackend.Business.pdb
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/KidsAppBackend.Data.pdb
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.csproj.AssemblyReference.cache
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.GeneratedMSBuildEditorConfig.editorconfig
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.AssemblyInfoInputs.cache
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.AssemblyInfo.cs
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.csproj.CoreCompileInputs.cache
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.MvcApplicationPartsAssemblyInfo.cs
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.MvcApplicationPartsAssemblyInfo.cache
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.sourcelink.json
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/staticwebassets.build.json
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/staticwebassets.development.json
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/staticwebassets/msbuild.KidsAppBackend.WebApi.Microsoft.AspNetCore.StaticWebAssets.props
@@ -114,4 +123,3 @@
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.pdb
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.genruntimeconfig.cache
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/ref/KidsAppBackend.WebApi.dll
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/BCrypt.Net-Next.dll

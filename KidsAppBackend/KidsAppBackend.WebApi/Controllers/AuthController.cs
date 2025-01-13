@@ -50,7 +50,35 @@ namespace KidsAppBackend.WebApi.Controllers
                     Message = result.Message
                 });
         }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
 
+            var loginDto = new LoginDto
+            {
+                Email = request.Email,
+                Password = request.Password,
+            };
 
+            var result = await _userService.Login(loginDto);
+
+            if (!result.IsSucced)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(new
+            {
+                IsSucced = result.IsSucced,
+                Token = result.Token, // Authentication için token döndürülür
+                Message = result.Message,
+            });
+        }
     }
+
+
 }

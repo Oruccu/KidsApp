@@ -1,13 +1,13 @@
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/bin/Debug/net8.0/KidsAppBackend.Data.deps.json
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/bin/Debug/net8.0/KidsAppBackend.Data.runtimeconfig.json
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/bin/Debug/net8.0/KidsAppBackend.Data.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/bin/Debug/net8.0/KidsAppBackend.Data.pdb
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/obj/Debug/net8.0/KidsAppBackend.Data.csproj.AssemblyReference.cache
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/obj/Debug/net8.0/KidsAppBackend.Data.GeneratedMSBuildEditorConfig.editorconfig
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/obj/Debug/net8.0/KidsAppBackend.Data.AssemblyInfoInputs.cache
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/obj/Debug/net8.0/KidsAppBackend.Data.AssemblyInfo.cs
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/obj/Debug/net8.0/KidsAppBackend.Data.csproj.CoreCompileInputs.cache
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/obj/Debug/net8.0/KidsAppBackend.Data.sourcelink.json
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/bin/Debug/net8.0/KidsAppBackend.Data.deps.json
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/bin/Debug/net8.0/KidsAppBackend.Data.runtimeconfig.json
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/bin/Debug/net8.0/KidsAppBackend.Data.dll
-/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/bin/Debug/net8.0/KidsAppBackend.Data.pdb
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/obj/Debug/net8.0/KidsAppBackend.Data.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/obj/Debug/net8.0/refint/KidsAppBackend.Data.dll
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.Data/obj/Debug/net8.0/KidsAppBackend.Data.pdb
