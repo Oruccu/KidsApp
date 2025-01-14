@@ -1,11 +1,16 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import React from 'react'
-
-const Banner = () => {
+import styles from './styles'
+const Banner = ({ Score}) => {
   return (
-    <View>
-      <Text>Banner</Text>
-    </View>
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+        <Image source={require(`@/app/assets/icon/girlIcon.png`)} style={styles.image} />
+        </View>
+        <View style={styles.innerContainer}>
+          <Text style={styles.score}>Score {Score}</Text>
+        </View>
+      </View>
   )
 }
 

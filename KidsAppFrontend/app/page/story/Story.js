@@ -1,11 +1,28 @@
-import { View, Text } from 'react-native'
+import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
+import Background from '@/app/components/background'
+import styles from './styles'
+import Banner from '@/app/components/homeComponent/Banner'
+import ListenToStory from '@/app/components/homeComponent/ListenToStory'
+import { useNavigation } from '@react-navigation/native';
 
 const Story = () => {
   return (
-    <View>
-      <Text>Story</Text>
-    </View>
+    <Background showOverlay={true}>
+      <SafeAreaView>
+        <View>
+
+      <Banner Score={'Time'} />
+        </View>
+        <View>
+        <Text>Hikaye</Text>
+        </View>
+        <View>
+          
+        </View>
+
+      </SafeAreaView>
+    </Background>
   )
 }
 
