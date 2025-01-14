@@ -98,7 +98,6 @@ namespace KidsAppBackend.Business.Operations.User
             }
             catch (Exception ex)
             {
-                // Hata loglama ekleyebilirsiniz
                 return new ResultDto { IsSucced = false, Message = "Bir hata oluştu." };
             }
         }
