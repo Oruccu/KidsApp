@@ -1,3 +1,4 @@
+using KidsAppBackend.Business.Operations.User;
 using KidsAppBackend.Business.Operations.User.Dtos;
 using KidsAppBackend.Data.Repositories;
 using KidsAppBackend.Data.UnitOfWork;
@@ -13,11 +14,17 @@ namespace KidsAppBackend.Business.Operations.User
         private readonly IRepository<ChildUser> _childRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly JwtTokenGenerator _jwtTokenGenerator;
-        public UserManager(IRepository<ChildUser> childRepository, IUnitOfWork unitOfWork, IConfiguration configuration)
+        private readonly IRepository<AudioBook> _audioBookRepository;
+        public UserManager(
+            IRepository<ChildUser> childRepository,
+            IUnitOfWork unitOfWork,
+            IRepository<AudioBook> audioBookRepository,
+            IConfiguration configuration)
         {
             _childRepository = childRepository;
             _unitOfWork = unitOfWork;
             _jwtTokenGenerator = new JwtTokenGenerator(configuration);
+            _audioBookRepository = audioBookRepository;
         }
 
         public async Task<ServiceMessage> AddChild(AddChildDto dto)
@@ -52,7 +59,7 @@ namespace KidsAppBackend.Business.Operations.User
                 return new ResultDto { IsSucced = false, Message = "Invalid username or password." };
             }
 
-            var token = _jwtTokenGenerator.GenerateToken(user); 
+            var token = _jwtTokenGenerator.GenerateToken(user);
             return new ResultDto { IsSucced = true, Token = token, Message = "Login successful." };
         }
 
@@ -65,5 +72,36 @@ namespace KidsAppBackend.Business.Operations.User
         {
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
+
+        public async Task<ResultDto> GetAudioBook(int id)
+        {
+            try
+            {
+                var audioBook = await _audioBookRepository.GetEntityAsync(id);
+                if (audioBook == null)
+                {
+                    return new ResultDto { IsSucced = false, Message = "AudioBook bulunamadı." };
+                }
+
+                var audioBookDto = new AudioBookDto
+                {
+                    Title = audioBook.Title,
+                    AudioFileUrl = audioBook.AudioFileUrl
+                };
+
+                return new ResultDto
+                {
+                    IsSucced = true,
+                    Message = "AudioBook başarıyla alındı.",
+                    Data = audioBookDto
+                };
+            }
+            catch (Exception ex)
+            {
+                // Hata loglama ekleyebilirsiniz
+                return new ResultDto { IsSucced = false, Message = "Bir hata oluştu." };
+            }
+        }
+
     }
 }

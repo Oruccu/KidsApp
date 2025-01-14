@@ -19,7 +19,6 @@ namespace KidsAppBackend.Data.Repositories
             _dbSet = _db.Set<TEntity>();
         }
 
-        // Yeni bir kayıt ekler
         public void Add(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -27,7 +26,6 @@ namespace KidsAppBackend.Data.Repositories
             _dbSet.Add(entity);
         }
 
-        // Soft Delete yapar
         public void Delete(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -36,7 +34,6 @@ namespace KidsAppBackend.Data.Repositories
             _dbSet.Update(entity);
         }
 
-        // ID ile Soft Delete yapar
         public void Delete(int id)
         {
             var entity = _dbSet.Find(id);
@@ -47,13 +44,11 @@ namespace KidsAppBackend.Data.Repositories
             Delete(entity);
         }
 
-        // Belirli bir filtreye göre tek bir kayıt döndürür
         public TEntity? Get(Expression<Func<TEntity, bool>> predicate)
         {
             return _dbSet.FirstOrDefault(predicate);
         }
 
-        // Belirli bir filtreye göre tüm kayıtları döndürür
         public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate = null)
         {
             IQueryable<TEntity> query = _dbSet.Where(e => !e.IsDeleted);
@@ -64,18 +59,20 @@ namespace KidsAppBackend.Data.Repositories
             return query;
         }
 
-        // ID'ye göre kayıt döndürür
         public TEntity? GetEntity(int id)
         {
             return _dbSet.FirstOrDefault(e => e.Id == id && !e.IsDeleted);
         }
 
-        // Mevcut bir kaydı günceller
         public void Update(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             entity.UpdatedAt = DateTime.Now;
             _dbSet.Update(entity);
+        }
+         public async Task<TEntity> GetEntityAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
         }
     }
 }

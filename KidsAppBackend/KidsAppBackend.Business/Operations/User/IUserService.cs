@@ -8,9 +8,12 @@ using KidsAppBackend.Business.Types;
 
 namespace KidsAppBackend.Business.Operations.User
 {
-    public interface IUserService {
+    public interface IUserService
+    {
 
         Task<ServiceMessage> AddChild(AddChildDto dto);
         Task<ResultDto> Login(LoginDto loginDto);
+        Task<ResultDto> GetAudioBook(int id);
+
     }
 }

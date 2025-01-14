@@ -8,7 +8,11 @@ const styles = StyleSheet.create({
         flex: 1, // Tüm alanı kaplasın
         width: width, // Ekran genişliği
         height: height, // Ekran yüksekliği
-    }
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject, // Covers the entire background
+        backgroundColor: 'rgba(223, 222, 222, 0.4)', // Semi-transparent black
+    },
 });
 
 export default styles

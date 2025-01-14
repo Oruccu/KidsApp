@@ -4,6 +4,7 @@ namespace KidsAppBackend.Business.Types
     {
         public bool IsSucced { get; set; }
         public string Message { get; set; } 
-        public string Token { get; set; } 
+        public string Token { get; set; }
+        public object Data { get; set; } 
     }
 }

@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 
 function MainTab() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{headerShown:false}}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Story" component={Story} />
       <Tab.Screen name="Settings" component={Settings} />

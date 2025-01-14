@@ -1,11 +1,15 @@
-import { View, Text } from 'react-native'
+import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
-
+import Background from '@/app/components/background'
+import styles from './styles'
 const Home = () => {
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <Background showOverlay={true}>
+      <SafeAreaView style={styles.container}>
+
+        <Text>Home</Text>
+      </SafeAreaView>
+    </Background>
   )
 }
 
