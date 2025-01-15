@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
 import Background from '@/app/components/background'
 import styles from './styles'
-import Banner from '@/app/components/homeComponent/Banner'
+import Banner from '@/app/components/Banner'
 import ListenToStory from '@/app/components/homeComponent/ListenToStory'
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,7 +12,7 @@ const Story = () => {
       <SafeAreaView>
         <View>
 
-      <Banner Score={'Time'} />
+      <Banner bannerTitle={'Time'} />
         </View>
         <View>
         <Text>Hikaye</Text>
