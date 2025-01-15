@@ -15,16 +15,19 @@ namespace KidsAppBackend.Business.Operations.User
         private readonly IUnitOfWork _unitOfWork;
         private readonly JwtTokenGenerator _jwtTokenGenerator;
         private readonly IRepository<AudioBook> _audioBookRepository;
+        private readonly IKidsModeRepository _kidsModeRepository;
         public UserManager(
             IRepository<ChildUser> childRepository,
             IUnitOfWork unitOfWork,
             IRepository<AudioBook> audioBookRepository,
+            IKidsModeRepository kidsModeRepository,
             IConfiguration configuration)
         {
             _childRepository = childRepository;
             _unitOfWork = unitOfWork;
             _jwtTokenGenerator = new JwtTokenGenerator(configuration);
             _audioBookRepository = audioBookRepository;
+            _kidsModeRepository = kidsModeRepository;
         }
 
         public async Task<ServiceMessage> AddChild(AddChildDto dto)
@@ -99,6 +102,63 @@ namespace KidsAppBackend.Business.Operations.User
             catch (Exception ex)
             {
                 return new ResultDto { IsSucced = false, Message = "Bir hata oluştu." };
+            }
+        }
+        public async Task<KidsModeDto> CreateKidsModeAsync(KidsModeDto kidsModeDto)
+        {
+            try
+            {
+                var kidsMode = new KidsMode
+                {
+                    ChildId = kidsModeDto.ChildId,
+                    Boy = kidsModeDto.Boy,
+                    Girl = kidsModeDto.Girl,
+                    UpdatedAt = DateTime.Now
+                };
+
+                await _kidsModeRepository.CreateAsync(kidsMode);
+                await _unitOfWork.SaveChangesAsync();
+
+                return kidsModeDto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while creating KidsMode.", ex);
+            }
+        }
+        public async Task<KidsModeDto?> GetKidsModeByIdAsync(int childId)
+        {
+            try
+            {
+                var kidsMode = await _kidsModeRepository.GetKidsModeByChildIdAsync(childId);
+                if (kidsMode == null) return null;
+
+                return new KidsModeDto
+                {
+                    ChildId = kidsMode.ChildId,
+                    Boy = kidsMode.Boy,
+                    Girl = kidsMode.Girl
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while fetching KidsMode.", ex);
+            }
+        }
+        public async Task<KidsModeDto?> UpdateKidsModeAsync(KidsModeDto kidsModeDto)
+        {
+            try
+            {
+                await _kidsModeRepository.UpdateKidsModeAsync(kidsModeDto.ChildId, kidsModeDto.Boy, kidsModeDto.Girl);
+                return kidsModeDto;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An unexpected error occurred while updating KidsMode.", ex);
             }
         }
 

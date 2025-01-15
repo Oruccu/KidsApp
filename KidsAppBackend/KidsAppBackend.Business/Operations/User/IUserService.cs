@@ -13,7 +13,9 @@ namespace KidsAppBackend.Business.Operations.User
 
         Task<ServiceMessage> AddChild(AddChildDto dto);
         Task<ResultDto> Login(LoginDto loginDto);
-        Task<ResultDto> GetAudioBook(int id);
-
+        Task<ResultDto> GetAudioBook(int id); 
+        Task<KidsModeDto> CreateKidsModeAsync(KidsModeDto kidsModeDto);
+        Task<KidsModeDto?> UpdateKidsModeAsync(KidsModeDto kidsModeDto);
+        Task<KidsModeDto?> GetKidsModeByIdAsync(int childId);
     }
 }

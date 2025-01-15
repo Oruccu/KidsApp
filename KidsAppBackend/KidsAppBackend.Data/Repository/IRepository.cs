@@ -16,6 +16,6 @@ namespace KidsAppBackend.Data.Repositories
         TEntity? GetEntity(int id);
         TEntity? Get(Expression<Func<TEntity, bool>> predicate);
         IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate = null);
-         Task<TEntity?> GetEntityAsync(int id);
+        Task<TEntity?> GetEntityAsync(int id);
     }
 }
