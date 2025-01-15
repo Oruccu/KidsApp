@@ -1,17 +1,29 @@
-import { View, Text, Image } from 'react-native'
-import React from 'react'
-import styles from './styles'
-const Banner = ({ bannerTitle}) => {
-  return (
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-        <Image source={require(`@/app/assets/icon/girlIcon.png`)} style={styles.image} />
-        </View>
-        <View style={styles.innerContainer}>
-          <Text style={styles.score}>{bannerTitle}</Text>
-        </View>
-      </View>
-  )
-}
+// src/app/components/Banner.js
+import { View, Text, Image } from 'react-native';
+import React from 'react';
+import styles from './styles';
+import useTheme from '@/app/hooks/useTheme';
+import { useSelector } from 'react-redux';
 
-export default Banner
+const Banner = ({ bannerTitle }) => {
+  const themeColors = useTheme();
+  const currentMode = useSelector((state) => state.mode.currentMode);
+
+  const iconSource =
+    currentMode === 'boy'
+      ? require('@/app/assets/icon/boyIcon.png')
+      : require('@/app/assets/icon/girlIcon.png');
+
+  return (
+    <View style={styles.bannerContainer}>
+      <View style={[styles.imageContainer, { backgroundColor: themeColors.Secondary }]}>
+        <Image source={iconSource} style={styles.image} />
+      </View>
+      <View style={[styles.innerContainer, { backgroundColor: themeColors.Primary }]}>
+        <Text style={[styles.score, { color: themeColors.Secondary }]}>{bannerTitle}</Text>
+      </View>
+    </View>
+  );
+};
+
+export default Banner;

@@ -100,8 +100,7 @@ namespace KidsAppBackend.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Boy = table.Column<bool>(type: "boolean", nullable: false),
-                    Girl = table.Column<bool>(type: "boolean", nullable: false),
+                    Mode = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     ChildId = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
@@ -147,12 +146,12 @@ namespace KidsAppBackend.Data.Migrations
             migrationBuilder.InsertData(
                 table: "ChildUsers",
                 columns: new[] { "Id", "CreatedAt", "Email", "ModifiedDate", "ParentUserName", "Password", "UpdatedAt", "Username" },
-                values: new object[] { 1, new DateTime(2025, 1, 13, 0, 52, 1, 747, DateTimeKind.Local).AddTicks(2400), "child1@example.com", null, "Parent1", "Test123", null, "Child1" });
+                values: new object[] { 1, new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7540), "child1@example.com", null, "Parent1", "Test123", null, "Child1" });
 
             migrationBuilder.InsertData(
                 table: "GameResults",
                 columns: new[] { "Id", "ChildId", "CreatedAt", "DatePlayed", "GameType", "ModifiedDate", "Score", "UpdatedAt" },
-                values: new object[] { 1, 1, new DateTime(2025, 1, 13, 0, 52, 1, 747, DateTimeKind.Local).AddTicks(2490), new DateTime(2025, 1, 13, 0, 52, 1, 747, DateTimeKind.Local).AddTicks(2490), 0, null, 85, null });
+                values: new object[] { 1, 1, new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7650), new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7650), 0, null, 85, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GameResults_ChildId",

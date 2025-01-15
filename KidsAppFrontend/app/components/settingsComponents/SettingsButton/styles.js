@@ -1,36 +1,54 @@
-import {StyleSheet} from 'react-native'
-import color from '@/app/styles/color.js'
+// src/app/pages/styles.js
+import { StyleSheet } from 'react-native';
+import color from '@/app/styles/color.js';
+
 const BaseStyles = StyleSheet.create({
-    container: { 
-        paddingVertical: 12,                   
-        borderRadius: 20,              
-        alignItems: 'center',         
-        justifyContent: 'center',    
-        marginRight:40,
-        marginTop:20,
-        marginLeft:40       
-    },
-    title:{
-        fontSize:20,
-    }
-})
+  container: { 
+    paddingVertical: 12,                   
+    borderRadius: 20,              
+    alignItems: 'center',         
+    justifyContent: 'center',    
+    padding:10,
+    width:100,
+    marginRight:20,
+  },
+  title: {
+    fontSize:20,
+    fontWeight:'bold',
+    color: '#fff', 
+  },
+  modeContainer: {
+    marginVertical: 20,
+  },
+  modeText: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+});
 
 export default {
-    BoyButton: StyleSheet.create({
-        container:{
-            ...BaseStyles.container,
-        },
-        title:{
-            ...BaseStyles.title,
-        }
-    }),
-    GirlButton: StyleSheet.create({
-        container:{
-            ...BaseStyles.container,
-            borderWidth:1
-        },
-        title:{
-            ...BaseStyles.title,
-        }
-    }),
-}
+  ...BaseStyles,
+  BoyButton: StyleSheet.create({
+    container: {
+      ...BaseStyles.container,
+      backgroundColor: color.BoyColors.Primary,
+    },
+    title: {
+      ...BaseStyles.title,
+      color: color.BoyColors.Secondary,
+    },
+  }),
+  GirlButton: StyleSheet.create({
+    container: {
+      ...BaseStyles.container,
+      backgroundColor: color.GirlColors.Primary,
+    },
+    title: {
+      ...BaseStyles.title,
+      color: color.GirlColors.Secondary,
+    },
+  }),
+};

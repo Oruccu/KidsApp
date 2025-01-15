@@ -108,11 +108,15 @@ namespace KidsAppBackend.Business.Operations.User
         {
             try
             {
+                if (!Enum.TryParse<ModeType>(kidsModeDto.Mode, true, out var mode))
+                {
+                    throw new ArgumentException("Invalid mode value. Allowed values are 'Boy' or 'Girl'.");
+                }
+
                 var kidsMode = new KidsMode
                 {
                     ChildId = kidsModeDto.ChildId,
-                    Boy = kidsModeDto.Boy,
-                    Girl = kidsModeDto.Girl,
+                    Mode = mode,
                     UpdatedAt = DateTime.Now
                 };
 
@@ -136,8 +140,7 @@ namespace KidsAppBackend.Business.Operations.User
                 return new KidsModeDto
                 {
                     ChildId = kidsMode.ChildId,
-                    Boy = kidsMode.Boy,
-                    Girl = kidsMode.Girl
+                    Mode = kidsMode.Mode.ToString()
                 };
             }
             catch (Exception ex)
@@ -147,9 +150,14 @@ namespace KidsAppBackend.Business.Operations.User
         }
         public async Task<KidsModeDto?> UpdateKidsModeAsync(KidsModeDto kidsModeDto)
         {
-            try
+           try
             {
-                await _kidsModeRepository.UpdateKidsModeAsync(kidsModeDto.ChildId, kidsModeDto.Boy, kidsModeDto.Girl);
+                if (!Enum.TryParse<ModeType>(kidsModeDto.Mode, true, out var mode))
+                {
+                    throw new ArgumentException("Invalid mode value. Allowed values are 'Boy' or 'Girl'.");
+                }
+
+                await _kidsModeRepository.UpdateKidsModeAsync(kidsModeDto.ChildId, mode);
                 return kidsModeDto;
             }
             catch (KeyNotFoundException ex)

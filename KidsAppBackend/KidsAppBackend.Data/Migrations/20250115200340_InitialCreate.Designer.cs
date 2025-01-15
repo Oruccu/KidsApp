@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KidsAppBackend.Data.Migrations
 {
     [DbContext(typeof(KidsAppDbContext))]
-    [Migration("20250112215201_InitialCreate")]
+    [Migration("20250115200340_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -148,7 +148,7 @@ namespace KidsAppBackend.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 13, 0, 52, 1, 747, DateTimeKind.Local).AddTicks(2400),
+                            CreatedAt = new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7540),
                             Email = "child1@example.com",
                             IsDeleted = false,
                             ParentUserName = "Parent1",
@@ -202,8 +202,8 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 1,
                             ChildId = 1,
-                            CreatedAt = new DateTime(2025, 1, 13, 0, 52, 1, 747, DateTimeKind.Local).AddTicks(2490),
-                            DatePlayed = new DateTime(2025, 1, 13, 0, 52, 1, 747, DateTimeKind.Local).AddTicks(2490),
+                            CreatedAt = new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7650),
+                            DatePlayed = new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7650),
                             GameType = 0,
                             IsDeleted = false,
                             Score = 85
@@ -218,22 +218,21 @@ namespace KidsAppBackend.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Boy")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("ChildId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<bool>("Girl")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
+
+                    b.Property<string>("Mode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");

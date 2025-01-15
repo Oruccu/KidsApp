@@ -1,14 +1,22 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
-import styles from './styles'
-const SettingsButton = ({onPress, buttonTitle, theme }) => {
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View style={styles[theme].container}>
-        <Text style={styles[theme].title}>{buttonTitle}</Text>
-      </View>
-    </TouchableOpacity>
-  )
-}
+import React from 'react';
+import { TouchableOpacity, Text } from 'react-native';
+import styles from './styles';
+import useTheme from '@/app/hooks/useTheme';
 
-export default SettingsButton
+const SettingsButton = ({ onPress, buttonTitle, theme, isActive }) => {
+  const themeColors = useTheme();
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[
+        styles[theme].container,
+        isActive && { borderWidth: 2, borderColor: themeColors.Primary },
+      ]}
+    >
+      <Text style={styles[theme].title}>{buttonTitle}</Text>
+    </TouchableOpacity>
+  );
+};
+
+export default SettingsButton;

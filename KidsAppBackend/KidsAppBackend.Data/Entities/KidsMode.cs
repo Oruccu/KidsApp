@@ -1,33 +1,39 @@
-using System;
 using KidsAppBackend.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using KidsAppBackend.Data.Entities;
+using System;
 
 namespace KidsAppBackend.Data.Entities
 {
+    // ModeType Enum'u
+    public enum ModeType
+    {
+        Boy,
+        Girl
+    }
+
+    // KidsMode Entity'si
     public class KidsMode : BaseEntity
     {
-        public bool Boy { get; set; }
-        public bool Girl { get; set; }
+        public ModeType Mode { get; set; } // "Boy" veya "Girl"
         public int ChildId { get; set; }
         public ChildUser Child { get; set; }
     }
 
-}
-
-// KidsMode Configuration
-public class KidsModeConfiguration : BaseConfiguration<KidsMode>
-{
-    public override void Configure(EntityTypeBuilder<KidsMode> builder)
+    // KidsMode Configuration
+    public class KidsModeConfiguration : BaseConfiguration<KidsMode>
     {
-        base.Configure(builder);
-        builder.Property(k => k.Boy).IsRequired();
-        builder.Property(k => k.Girl).IsRequired();
+        public override void Configure(EntityTypeBuilder<KidsMode> builder)
+        {
+            base.Configure(builder);
+            builder.Property(k => k.Mode)
+                   .IsRequired()
+                   .HasConversion<string>() // Enum'u string olarak depolamak için
+                   .HasMaxLength(10);
 
-        builder.HasOne(k => k.Child)
-               .WithMany()
-               .HasForeignKey(k => k.ChildId);
+            builder.HasOne(k => k.Child)
+                   .WithMany()
+                   .HasForeignKey(k => k.ChildId);
+        }
     }
 }
-
