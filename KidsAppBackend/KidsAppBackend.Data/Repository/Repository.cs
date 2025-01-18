@@ -26,6 +26,10 @@ namespace KidsAppBackend.Data.Repositories
             _dbSet.Add(entity);
         }
 
+        public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _dbSet.FirstOrDefaultAsync(predicate);
+        }
         public void Delete(TEntity entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));

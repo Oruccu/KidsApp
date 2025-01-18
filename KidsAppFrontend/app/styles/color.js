@@ -1,4 +1,3 @@
-// src/app/styles/color.js
 const BoyColors = {
   Primary: "#93C82C",
   Secondary: "#EEEEEE",

@@ -12,6 +12,7 @@ namespace KidsAppBackend.Data.Repositories
         void Add(TEntity entity);
         void Delete(TEntity entity);
         void Delete(int id);
+        Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate);
         void Update(TEntity entity);
         TEntity? GetEntity(int id);
         TEntity? Get(Expression<Func<TEntity, bool>> predicate);

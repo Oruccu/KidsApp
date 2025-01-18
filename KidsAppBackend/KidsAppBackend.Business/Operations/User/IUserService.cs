@@ -10,14 +10,15 @@ namespace KidsAppBackend.Business.Operations.User
 {
     public interface IUserService
     {
-
         Task<ServiceMessage> AddChild(AddChildDto dto);
-        Task<ResultDto> Login(LoginDto loginDto);
-        Task<ResultDto> GetAudioBook(int id); 
-        Task<KidsModeDto> CreateKidsModeAsync(KidsModeDto kidsModeDto);
-        Task<KidsModeDto?> UpdateKidsModeAsync(KidsModeDto kidsModeDto);
-        Task<KidsModeDto?> GetKidsModeByIdAsync(int childId);
         Task<ResultDto> ParentLogin(LoginDto loginDto);
+        Task<ResultDto> Login(LoginDto loginDto);
+        Task<ServiceMessage> DeleteUserAsync(int userId);
+        Task<ResultDto> GetAudioBook(int id);
+        Task<KidsModeDto> CreateKidsModeAsync(KidsModeDto kidsModeDto);
+        Task<KidsModeDto?> GetKidsModeByIdAsync(int childId);
+        Task<KidsModeDto?> UpdateKidsModeAsync(KidsModeDto kidsModeDto);
 
     }
 }
+

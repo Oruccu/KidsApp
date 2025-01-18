@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  currentMode: 'Gril',
+};
+
 const modeSlice = createSlice({
   name: 'mode',
-  initialState: {
-    currentMode: 'Girl',
-  },
+  initialState,
   reducers: {
-    setMode: (state, action) => {
-      state.currentMode = action.payload;
+    setMode(state, action) {
+      state.currentMode = action.payload; 
     },
   },
 });

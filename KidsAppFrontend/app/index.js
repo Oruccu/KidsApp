@@ -70,8 +70,8 @@ export default function Index() {
   return (
     <Provider store={store}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Stack" component={MainStack} />
         <Stack.Screen name="Main" component={MainTab} />
+        <Stack.Screen name="Stack" component={MainStack} />
       </Stack.Navigator>
     </Provider>
   );
