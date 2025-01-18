@@ -7,5 +7,6 @@ namespace KidsAppBackend.Business.Types
         public string Token { get; set; }
         public object Data { get; set; } 
         public string UserName { get; set;}
+        public int? ChildId { get; set; } 
     }
 }

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setMode, fetchMode } from '@/app/store/modeSlice';
 import useTheme from '@/app/hooks/useTheme';
 import { logout } from '@/app/services/api.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Settings = ({ navigation }) => { 
   const dispatch = useDispatch();
@@ -18,12 +19,15 @@ const Settings = ({ navigation }) => {
 
   const userName = useSelector((state) => state.user.userName);
   
-  console.log(userName);
+  console.log('username:'+ userName);
   useEffect(() => {
+    AsyncStorage.getItem('token').then(t => console.log('Settings.js token:', t));
+    AsyncStorage.getItem('childId').then(id => console.log('Settings.js childId:', id));
+  
     dispatch(fetchMode());
   }, [dispatch]);
-  
-  const handleBoyMode = () => {
+
+  const handleBoyMode = async() => {
     dispatch(setMode({ modeType: 'Boy' }));
   };
   
@@ -35,7 +39,7 @@ const Settings = ({ navigation }) => {
     try {
       await logout();
       Alert.alert('Success', 'You have been logged out.');
-      navigation.replace('Login'); 
+      navigation.replace('SignIn'); 
     } catch (error) {
       Alert.alert('Error', error.message);
     }
@@ -64,7 +68,7 @@ const Settings = ({ navigation }) => {
         </View>
         {status === 'loading' && <Text>Yükleniyor...</Text>}
         {error && <Text style={{ color: 'red' }}>{error}</Text>}
-        <Button title="Logout" onPress={handleLogout} />
+        <SettingsButton buttonTitle="Logout" onPress={handleLogout}  theme={'GirlButton'}  isActive={currentMode === 'Girl'}/>
       </SafeAreaView>
     </Background>
   );

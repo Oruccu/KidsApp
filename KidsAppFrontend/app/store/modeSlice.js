@@ -1,42 +1,40 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  createKidsMode,
-  updateKidsMode,
-  getKidsMode,
-  getChildIdFromToken,
-} from '@/app/services/modeApi.js';
-
+import { getKidsMode, createKidsMode, updateKidsMode } from '@/app/services/modeApi';
+import { getChildId } from '@/app/services/api';
 
 export const setMode = createAsyncThunk(
   'mode/setMode',
   async ({ modeType }, { rejectWithValue }) => {
     try {
       console.log(`setMode thunk başlatıldı: ${modeType}`);
-
-      const childId = await getChildIdFromToken();
+      const childId = await getChildId();
+      console.log('setMode childId:', childId);
       if (!childId) {
         throw new Error('childId bulunamadı.');
       }
 
-      const kidsModeDto = {
-        ChildId: childId,
-        Mode: modeType.charAt(0).toUpperCase() + modeType.slice(1).toLowerCase(),
-      };
-
-      console.log('kidsModeDto:', kidsModeDto);
-
-      const existingMode = await getKidsMode(childId);
-      if (existingMode) {
-        console.log('Mode güncelleniyor:', kidsModeDto);
-        const response = await updateKidsMode(kidsModeDto);
-        console.log('Mode güncellendi:', response);
-        return response;
-      } else {
-        console.log('Mode oluşturuluyor:', kidsModeDto);
-        const response = await createKidsMode(kidsModeDto);
-        console.log('Mode oluşturuldu:', response);
-        return response;
+      // İlk olarak mevcut kaydı kontrol ediyoruz
+      let currentModeData = null;
+      try {
+        currentModeData = await getKidsMode(childId);
+        console.log('Mevcut mode verisi bulundu:', currentModeData);
+      } catch (error) {
+        console.log('Mode verisi bulunamadı, create işlemi uygulanacak.');
       }
+
+      const kidsModeDto = { mode: modeType, childId };
+
+      if (currentModeData) {
+        console.log('Update işlemi başlatılıyor.');
+        await updateKidsMode(kidsModeDto);
+      } else {
+        console.log('Create işlemi başlatılıyor.');
+        await createKidsMode(kidsModeDto);
+      }
+
+      const updatedData = await getKidsMode(childId);
+      console.log('Güncel mode verisi:', updatedData);
+      return updatedData;
     } catch (error) {
       console.error('setMode hatası:', error);
       return rejectWithValue(error.response?.data?.message || 'Mode ayarlanamadı.');
@@ -49,12 +47,11 @@ export const fetchMode = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       console.log('fetchMode thunk başlatıldı');
-      
-      const childId = await getChildIdFromToken();
+      const childId = await getChildId();
+      console.log('fetchMode childId:', childId);
       if (!childId) {
         throw new Error('childId bulunamadı.');
       }
-
       const response = await getKidsMode(childId);
       console.log('fetchMode başarılı:', response);
       return response;
@@ -68,7 +65,7 @@ export const fetchMode = createAsyncThunk(
 const modeSlice = createSlice({
   name: 'mode',
   initialState: {
-    currentMode: 'Boy', 
+    currentMode: 'Girl',
     status: 'idle',
     error: null,
   },
@@ -80,19 +77,18 @@ const modeSlice = createSlice({
       })
       .addCase(setMode.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.currentMode = action.payload.mode || action.payload.Mode; 
+        state.currentMode = action.payload.mode || action.payload.Mode;
       })
       .addCase(setMode.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       })
-
       .addCase(fetchMode.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(fetchMode.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.currentMode = action.payload.mode || action.payload.Mode; 
+        state.currentMode = action.payload.mode || action.payload.Mode;
       })
       .addCase(fetchMode.rejected, (state, action) => {
         state.status = 'failed';

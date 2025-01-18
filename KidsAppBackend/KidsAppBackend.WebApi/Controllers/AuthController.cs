@@ -68,6 +68,7 @@ namespace KidsAppBackend.WebApi.Controllers
             {
                 Email = request.Email,
                 Password = request.Password,
+                
             };
 
             var result = await _userService.Login(loginDto);
@@ -82,6 +83,7 @@ namespace KidsAppBackend.WebApi.Controllers
                 IsSucced = result.IsSucced,
                 Token = result.Token,
                 Message = result.Message,
+                 ChildId = result.ChildId 
             });
         }
         [HttpGet("getCurrentUser")]

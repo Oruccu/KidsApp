@@ -23,7 +23,7 @@ namespace KidsAppBackend.Business.Operations.User
             IRepository<AudioBook> audioBookRepository,
             IKidsModeRepository kidsModeRepository,
             ITokenBlacklist tokenBlacklist,
-            IConfiguration configuration)    
+            IConfiguration configuration)
         {
             _childRepository = childRepository;
             _unitOfWork = unitOfWork;
@@ -56,7 +56,7 @@ namespace KidsAppBackend.Business.Operations.User
 
             return new ServiceMessage { IsSucced = true, Message = "Child successfully added!" };
         }
-        
+
         public async Task<ResultDto> ParentLogin(LoginDto loginDto)
         {
             var parent = _childRepository.Get(p => p.ParentUserName == loginDto.Email);
@@ -90,7 +90,7 @@ namespace KidsAppBackend.Business.Operations.User
                 IsSucced = true,
                 Token = token,
                 Message = "Login successful.",
-                UserName = user.Username
+                ChildId = user.Id
             };
         }
 

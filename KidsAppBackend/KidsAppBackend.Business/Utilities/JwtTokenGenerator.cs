@@ -1,4 +1,3 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,7 +15,8 @@ namespace KidsAppBackend.Business.Utilities
         public JwtTokenGenerator(IConfiguration configuration)
         {
             _secretKey = configuration["JwtSettings:SecretKey"]
-                  ?? throw new ArgumentNullException("JwtSettings:SecretKey is missing in configuration");
+                ?? throw new ArgumentNullException("JwtSettings:SecretKey is missing in configuration");
+
             if (!int.TryParse(configuration["JwtSettings:TokenExpirationMinutes"], out _tokenExpirationMinutes))
             {
                 throw new ArgumentException("JwtSettings:TokenExpirationMinutes must be a valid integer.");
@@ -28,13 +28,14 @@ namespace KidsAppBackend.Business.Utilities
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secretKey);
 
-            var claims = new[]
+            var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim("nameid", user.Id.ToString())
-            };
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
 
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
+            };
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -49,5 +50,3 @@ namespace KidsAppBackend.Business.Utilities
         }
     }
 }
-
-
