@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import modeReducer from './modeSlice.js';
-import userReducer from './userSlice.js';
+import modeReducer from './modeSlice';
+import userReducer from './userSlice';
 
 const store = configureStore({
   reducer: {
@@ -8,5 +8,6 @@ const store = configureStore({
     user: userReducer,
   },
 });
+
 
 export default store;

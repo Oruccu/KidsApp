@@ -9,44 +9,35 @@ namespace KidsAppBackend.Business.Utilities
 {
     public class JwtTokenGenerator
     {
-        private readonly string _secretKey;
-        private readonly int _tokenExpirationMinutes;
+        private readonly IConfiguration _configuration;
 
         public JwtTokenGenerator(IConfiguration configuration)
         {
-            _secretKey = configuration["JwtSettings:SecretKey"]
-                ?? throw new ArgumentNullException("JwtSettings:SecretKey is missing in configuration");
-
-            if (!int.TryParse(configuration["JwtSettings:TokenExpirationMinutes"], out _tokenExpirationMinutes))
-            {
-                throw new ArgumentException("JwtSettings:TokenExpirationMinutes must be a valid integer.");
-            }
+            _configuration = configuration;
         }
 
-        public string GenerateToken(ChildUser user)
+        public string GenerateToken(int userId, string email, string userName)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_secretKey);
+            var secretKey = _configuration["JwtSettings:SecretKey"];
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var claims = new List<Claim>
+            var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),  // Kullanıcı ID'si
+                new Claim(JwtRegisteredClaimNames.Email, email),
+                new Claim(JwtRegisteredClaimNames.UniqueName, userName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(_tokenExpirationMinutes),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+            var token = new JwtSecurityToken(
+                claims: claims,
+                notBefore: DateTime.UtcNow,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: creds
+            );
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

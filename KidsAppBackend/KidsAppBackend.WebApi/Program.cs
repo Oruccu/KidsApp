@@ -9,6 +9,7 @@ using KidsAppBackend.Data;
 using KidsAppBackend.Business.Utilities;
 using KidsAppBackend.WebApi.Middleware;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,11 +54,26 @@ builder.Services.AddAuthentication(options =>
     cfg.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"])),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
+        NameClaimType = JwtRegisteredClaimNames.Sub
+    };
+
+    cfg.Events = new JwtBearerEvents
+    {
+        OnTokenValidated = async context =>
+        {
+            var userId = context.Principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+            Console.WriteLine($"Token validated for user: {userId}");
+        },
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine($"Token authentication failed: {context.Exception}");
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -66,6 +82,16 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -77,6 +103,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<TokenValidationMiddleware>();
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

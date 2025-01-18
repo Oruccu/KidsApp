@@ -65,7 +65,7 @@ namespace KidsAppBackend.Business.Operations.User
                 return new ResultDto { IsSucced = false, Message = "Invalid parent credentials." };
             }
 
-            var token = _jwtTokenGenerator.GenerateToken(parent);
+            var token = _jwtTokenGenerator.GenerateToken(parent.Id, parent.Email, parent.Username);
             return new ResultDto
             {
                 IsSucced = true,
@@ -75,24 +75,58 @@ namespace KidsAppBackend.Business.Operations.User
             };
         }
 
-
         public async Task<ResultDto> Login(LoginDto loginDto)
         {
-            var user = _childRepository.Get(c => c.Email == loginDto.Email);
-            if (user == null || !VerifyPassword(user.Password, loginDto.Password))
+            try 
             {
-                return new ResultDto { IsSucced = false, Message = "Invalid username or password." };
-            }
+                var user = _childRepository.Get(c => c.Email == loginDto.Email);
+                if (user == null || !VerifyPassword(user.Password, loginDto.Password))
+                {
+                    return new ResultDto { IsSucced = false, Message = "Invalid username or password." };
+                }
 
-            var token = _jwtTokenGenerator.GenerateToken(user);
-            return new ResultDto
+                // Kullanıcı girişi başarılı, varsayılan mode'u kontrol et
+                var existingMode = await _kidsModeRepository.GetKidsModeByChildIdAsync(user.Id);
+                if (existingMode == null)
+                {
+                    // Varsayılan mode yok, oluştur
+                    var defaultMode = new KidsMode
+                    {
+                        ChildId = user.Id,
+                        Mode = ModeType.Girl,
+                        UpdatedAt = DateTime.UtcNow
+                    };
+                    await _kidsModeRepository.CreateAsync(defaultMode);
+                    await _unitOfWork.SaveChangesAsync();
+                }
+
+                // Token oluştur
+                var token = _jwtTokenGenerator.GenerateToken(
+                    userId: user.Id,
+                    email: user.Email,
+                    userName: user.Username
+                );
+
+                return new ResultDto
+                {
+                    IsSucced = true,
+                    Token = token,
+                    Message = "Login successful.",
+                    ChildId = user.Id,
+                    UserName = user.Username
+                };
+            }
+            catch (Exception ex)
             {
-                IsSucced = true,
-                Token = token,
-                Message = "Login successful.",
-                ChildId = user.Id
-            };
+                Console.WriteLine($"Login error: {ex.Message}");
+                return new ResultDto 
+                { 
+                    IsSucced = false, 
+                    Message = "An error occurred during login." 
+                };
+            }
         }
+
 
         private string HashPassword(string password)
         {
@@ -107,6 +141,7 @@ namespace KidsAppBackend.Business.Operations.User
         public async Task<ResultDto> GetAudioBook(int id)
         {
             try
+
             {
                 var audioBook = await _audioBookRepository.GetEntityAsync(id);
                 if (audioBook == null)
