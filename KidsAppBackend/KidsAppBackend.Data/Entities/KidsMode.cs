@@ -5,22 +5,17 @@ using System;
 
 namespace KidsAppBackend.Data.Entities
 {
-    // ModeType Enum'u
     public enum ModeType
     {
         Boy,
         Girl
     }
-
-    // KidsMode Entity'si
     public class KidsMode : BaseEntity
     {
-        public ModeType Mode { get; set; } // "Boy" veya "Girl"
+        public ModeType Mode { get; set; } 
         public int ChildId { get; set; }
         public ChildUser Child { get; set; }
     }
-
-    // KidsMode Configuration
     public class KidsModeConfiguration : BaseConfiguration<KidsMode>
     {
         public override void Configure(EntityTypeBuilder<KidsMode> builder)

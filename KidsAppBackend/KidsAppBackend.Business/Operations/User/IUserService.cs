@@ -17,5 +17,7 @@ namespace KidsAppBackend.Business.Operations.User
         Task<KidsModeDto> CreateKidsModeAsync(KidsModeDto kidsModeDto);
         Task<KidsModeDto?> UpdateKidsModeAsync(KidsModeDto kidsModeDto);
         Task<KidsModeDto?> GetKidsModeByIdAsync(int childId);
+        Task<ResultDto> ParentLogin(LoginDto loginDto);
+
     }
 }

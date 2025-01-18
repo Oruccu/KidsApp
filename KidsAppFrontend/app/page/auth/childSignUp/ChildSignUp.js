@@ -34,7 +34,6 @@ const ChildSignUp = () => {
       .required('Please confirm your password'),
   });
 
-  // Kayıt fonksiyonu
   const handleChildSignUp = async (values, { resetForm, setSubmitting }) => {
     try {
       setIsRegistering(true);
@@ -45,23 +44,22 @@ const ChildSignUp = () => {
         values.username,
         values.parentName
       );
-      console.log('API Response:', response.data);
       
+      console.log('API Response:', response);
+
       if (!response.IsSucced) {
-        console.log('Error', response.Message);
+        Alert.alert('Error', response.Message || 'Registration failed.');
+      } else {
+        Alert.alert('Success', 'Registration successful!');
+        resetForm();
+        navigation.navigate('SignIn');
       }
-  
-      // Başarılı kayıt
-      Alert.alert('Success', 'Registration successful!');
-      resetForm();
-      navigation.navigate('SignIn');
     } catch (error) {
       Alert.alert('Error', error.message || 'An error occurred.');
       console.log(error);
     } finally {
       setSubmitting(false);
       setIsRegistering(false);
-
     }
   };
 
@@ -153,10 +151,10 @@ const ChildSignUp = () => {
                 <Text style={styles.errorText}>{errors.confirmChildPassword}</Text>
               )}
 
-              {isRegistering || isSubmitting ? (
+              {(isRegistering || isSubmitting) ? (
                 <ActivityIndicator size="large" color="#0000ff" />
               ) : (
-                <Button onPress={handleSubmit} ButtonName="SIGN IN" />
+                <Button onPress={handleSubmit} ButtonName="SIGN UP" />
               )}
 
               <AuthTextButton

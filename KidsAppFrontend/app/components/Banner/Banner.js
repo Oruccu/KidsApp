@@ -10,10 +10,10 @@ const Banner = ({ bannerTitle }) => {
   const currentMode = useSelector((state) => state.mode.currentMode);
 
   const iconSource =
-    currentMode === 'boy'
+    currentMode.toLowerCase() === 'boy'
       ? require('@/app/assets/icon/boyIcon.png')
       : require('@/app/assets/icon/girlIcon.png');
-
+      
   return (
     <View style={styles.bannerContainer}>
       <View style={[styles.imageContainer, { backgroundColor: themeColors.Secondary }]}>

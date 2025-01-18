@@ -11,7 +11,6 @@ const api = axios.create({
   },
 });
 
-
 api.interceptors.request.use(
   async (config) => {
     const token = await AsyncStorage.getItem('token');
@@ -23,7 +22,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-
+// Token'dan childId'yi çeken fonksiyon
 export const getChildIdFromToken = async () => {
   const token = await AsyncStorage.getItem('token');
   if (!token) return null;
@@ -63,13 +62,19 @@ export const updateKidsMode = async (kidsModeDto) => {
   }
 };
 
-// Mode getirme
-export const getKidsMode = async () => {
+
+export const getKidsMode = async (childIdParam) => {
   try {
-    const childId = await getChildIdFromToken();
-    if (!childId) throw new Error('childId bulunamadı.');
+    let childId = childIdParam;
+    if (!childId) {
+      childId = await getChildIdFromToken();
+    }
+    if (!childId) {
+      throw new Error('childId bulunamadı.');
+    }
+
     console.log(`API çağrısı: getKidsMode için ChildId=${childId}`);
-    const response = await api.get(`/api/KidsMode`);
+    const response = await api.get(`/api/KidsMode/${childId}`);
     console.log('API cevabı: getKidsMode', response.data);
     return response.data;
   } catch (error) {

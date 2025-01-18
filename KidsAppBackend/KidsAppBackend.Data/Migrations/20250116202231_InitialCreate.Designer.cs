@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KidsAppBackend.Data.Migrations
 {
     [DbContext(typeof(KidsAppDbContext))]
-    [Migration("20250115200340_InitialCreate")]
+    [Migration("20250116202231_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -148,7 +148,7 @@ namespace KidsAppBackend.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7540),
+                            CreatedAt = new DateTime(2025, 1, 16, 23, 22, 31, 290, DateTimeKind.Local).AddTicks(3350),
                             Email = "child1@example.com",
                             IsDeleted = false,
                             ParentUserName = "Parent1",
@@ -202,8 +202,8 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 1,
                             ChildId = 1,
-                            CreatedAt = new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7650),
-                            DatePlayed = new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7650),
+                            CreatedAt = new DateTime(2025, 1, 16, 23, 22, 31, 290, DateTimeKind.Local).AddTicks(3450),
+                            DatePlayed = new DateTime(2025, 1, 16, 23, 22, 31, 290, DateTimeKind.Local).AddTicks(3450),
                             GameType = 0,
                             IsDeleted = false,
                             Score = 85

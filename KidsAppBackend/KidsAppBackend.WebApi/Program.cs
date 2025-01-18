@@ -7,6 +7,8 @@ using KidsAppBackend.Business.Operations.User;
 using Microsoft.EntityFrameworkCore;
 using KidsAppBackend.Data;
 using KidsAppBackend.Business.Utilities;
+using KidsAppBackend.WebApi.Middleware;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +26,19 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddScoped<IKidsModeRepository, KidsModeRepository>();
+builder.Services.AddSingleton<ITokenBlacklist, TokenBlacklist>();
 
-
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState.Values
+                .SelectMany(v => v.Errors)
+                .Select(e => e.ErrorMessage);
+            return new BadRequestObjectResult(new { Errors = errors });
+        };
+    });
 
 builder.Services.AddAuthentication(options =>
 {
@@ -46,12 +58,12 @@ builder.Services.AddAuthentication(options =>
 
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = false,
-        ValidateAudience = false,
+        ValidateIssuer = true,
+        ValidateAudience = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"])),
-       ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+        ValidAudience = jwtSettings["Audience"],
+        ValidIssuer = jwtSettings["Issuer"],
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero
     };
@@ -72,6 +84,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<TokenValidationMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

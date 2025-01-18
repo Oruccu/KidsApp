@@ -10,8 +10,8 @@ import ChildSignUp from "@/app/page/auth/childSignUp";
 import KidsMode from "@/app/page/kidsMode";
 import SignIn from "@/app/page/auth/signIn";
 import ResetPassword from "@/app/page/auth/resetPassword";
-
-import store from "./store";
+import Game from "@/app/page/game";
+import store from "./store/store";
 import { Provider } from "react-redux";
 
 const Tab = createBottomTabNavigator();
@@ -26,13 +26,14 @@ function MainTab() {
     </Tab.Navigator>
   );
 }
-function AuthStack() {
+function MainStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="ChildSignUp" component={ChildSignUp} />
       <Stack.Screen name="ResetPassword" component={ResetPassword} />
       <Stack.Screen name="KidsMode" component={KidsMode} />
+      <Stack.Screen name="Game" component={Game} />
     </Stack.Navigator>
   );
 }
@@ -41,7 +42,7 @@ export default function Index() {
   return (
     <Provider store={store}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Auth" component={AuthStack} />
+        <Stack.Screen name="Stack" component={MainStack} />
         <Stack.Screen name="Main" component={MainTab} />
       </Stack.Navigator>
     </Provider>

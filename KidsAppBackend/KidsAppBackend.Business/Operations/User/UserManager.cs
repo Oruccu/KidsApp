@@ -16,18 +16,21 @@ namespace KidsAppBackend.Business.Operations.User
         private readonly JwtTokenGenerator _jwtTokenGenerator;
         private readonly IRepository<AudioBook> _audioBookRepository;
         private readonly IKidsModeRepository _kidsModeRepository;
+        private readonly ITokenBlacklist _tokenBlacklist;
         public UserManager(
             IRepository<ChildUser> childRepository,
             IUnitOfWork unitOfWork,
             IRepository<AudioBook> audioBookRepository,
             IKidsModeRepository kidsModeRepository,
-            IConfiguration configuration)
+            ITokenBlacklist tokenBlacklist,
+            IConfiguration configuration)    
         {
             _childRepository = childRepository;
             _unitOfWork = unitOfWork;
             _jwtTokenGenerator = new JwtTokenGenerator(configuration);
             _audioBookRepository = audioBookRepository;
             _kidsModeRepository = kidsModeRepository;
+            _tokenBlacklist = tokenBlacklist;
         }
 
         public async Task<ServiceMessage> AddChild(AddChildDto dto)
@@ -53,6 +56,25 @@ namespace KidsAppBackend.Business.Operations.User
 
             return new ServiceMessage { IsSucced = true, Message = "Child successfully added!" };
         }
+        
+        public async Task<ResultDto> ParentLogin(LoginDto loginDto)
+        {
+            var parent = _childRepository.Get(p => p.ParentUserName == loginDto.Email);
+            if (parent == null || !VerifyPassword(parent.Password, loginDto.Password))
+            {
+                return new ResultDto { IsSucced = false, Message = "Invalid parent credentials." };
+            }
+
+            var token = _jwtTokenGenerator.GenerateToken(parent);
+            return new ResultDto
+            {
+                IsSucced = true,
+                Token = token,
+                Message = "Parent login successful.",
+                UserName = parent.Username
+            };
+        }
+
 
         public async Task<ResultDto> Login(LoginDto loginDto)
         {
@@ -63,7 +85,13 @@ namespace KidsAppBackend.Business.Operations.User
             }
 
             var token = _jwtTokenGenerator.GenerateToken(user);
-            return new ResultDto { IsSucced = true, Token = token, Message = "Login successful." };
+            return new ResultDto
+            {
+                IsSucced = true,
+                Token = token,
+                Message = "Login successful.",
+                UserName = user.Username
+            };
         }
 
         private string HashPassword(string password)
@@ -150,7 +178,7 @@ namespace KidsAppBackend.Business.Operations.User
         }
         public async Task<KidsModeDto?> UpdateKidsModeAsync(KidsModeDto kidsModeDto)
         {
-           try
+            try
             {
                 if (!Enum.TryParse<ModeType>(kidsModeDto.Mode, true, out var mode))
                 {

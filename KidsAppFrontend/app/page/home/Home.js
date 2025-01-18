@@ -33,6 +33,11 @@ const Home = () => {
           <ListenToStory Title={"The Little Prince"} onPress={ListenStory} url={require(`@/app/assets/icon/prince.png`)}/>
           <ListenToStory Title={"Snow White"} onPress={ListenStory} url={require(`@/app/assets/icon/snowWhite.png`)}/>
         </View>
+        <View>
+          <View>
+            
+          </View>
+        </View>
       </SafeAreaView>
     </Background>
   )

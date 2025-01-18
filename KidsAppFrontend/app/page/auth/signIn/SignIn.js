@@ -1,21 +1,24 @@
-// src/app/pages/SignIn.js
 import React, { useState } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { View, SafeAreaView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Background from '@/app/components/background';
 import Button from '@/app/components/button';
 import Input from '@/app/components/input';
 import AuthTextButton from '@/app/components/authTextButton';
 import styles from './styles';
-import { login } from '@/app/services/api'; 
+import { login } from '@/app/services/api';
+import { setUser } from '@/app/store/userSlice';
 
 const SignIn = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
+ 
   async function handleSignIn() {
     try {
       console.log('Sign In button pressed.');
@@ -28,12 +31,10 @@ const SignIn = () => {
     }
   }
 
-
   function forgotPassword() {
     console.log('Forgot password tapped.');
     navigation.navigate('ResetPassword');
   }
-
 
   function goParentSignUp() {
     console.log('Navigating to ParentSignUp screen...');
@@ -76,6 +77,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
-//user3@example.com
-// string

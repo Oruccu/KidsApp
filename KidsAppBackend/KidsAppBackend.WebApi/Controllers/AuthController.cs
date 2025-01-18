@@ -4,6 +4,7 @@ using KidsAppBackend.Business.Operations.User;
 using System.Threading.Tasks;
 using System.Linq;
 using KidsAppBackend.WebApi.Models;
+using KidsAppBackend.Business.Utilities;
 
 namespace KidsAppBackend.WebApi.Controllers
 {
@@ -12,13 +13,15 @@ namespace KidsAppBackend.WebApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ITokenBlacklist _tokenBlacklist;
 
-        public AuthController(IUserService userService)
+        public AuthController(IUserService userService, ITokenBlacklist tokenBlacklist)
         {
             _userService = userService;
+            _tokenBlacklist = tokenBlacklist;
         }
 
-        [HttpPost("registerChild")]
+       [HttpPost("registerChild")]
         public async Task<IActionResult> RegisterChild([FromBody] ChildRegisterRequest request)
         {
             if (!ModelState.IsValid)
@@ -38,6 +41,7 @@ namespace KidsAppBackend.WebApi.Controllers
             var result = await _userService.AddChild(addChildDto);
             if (!result.IsSucced)
             {
+                Console.WriteLine(result);
                 Console.WriteLine(result.Message);
                 return BadRequest(result.Message);
             }
@@ -50,6 +54,8 @@ namespace KidsAppBackend.WebApi.Controllers
                     Message = result.Message
                 });
         }
+
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
@@ -74,10 +80,64 @@ namespace KidsAppBackend.WebApi.Controllers
             return Ok(new
             {
                 IsSucced = result.IsSucced,
-                Token = result.Token, // Authentication için token döndürülür
+                Token = result.Token,
                 Message = result.Message,
             });
         }
+        [HttpGet("getCurrentUser")]
+        public IActionResult GetCurrentUser()
+        {
+            var username = User.Claims.FirstOrDefault(c => c.Type == "UserName")?.Value;
+            Console.WriteLine(username);
+            if (username == null)
+            {
+                return Unauthorized("User is not logged in or token is invalid.");
+            }
+            return Ok(new { UserName = username });
+        }
+        [HttpPost("parentLogin")]
+        public async Task<IActionResult> ParentLogin([FromBody] ParentLoginRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+
+            var loginDto = new LoginDto
+            {
+                Email = request.Email,
+                Password = request.Password
+            };
+
+            var result = await _userService.ParentLogin(loginDto);
+
+            if (!result.IsSucced)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(new
+            {
+                IsSucced = result.IsSucced,
+                Token = result.Token,
+                UserName = result.UserName,
+                Message = result.Message,
+            });
+        }
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest("Token is required for logout.");
+            }
+
+            _tokenBlacklist.AddToBlacklist(token);
+            return Ok(new { Message = "Logout successful." });
+        }
+
     }
 
 

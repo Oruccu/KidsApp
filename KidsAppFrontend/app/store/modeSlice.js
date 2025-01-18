@@ -1,16 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createKidsMode, updateKidsMode, getKidsMode } from '@/app/services/modeApi.js';
+import {
+  createKidsMode,
+  updateKidsMode,
+  getKidsMode,
+  getChildIdFromToken,
+} from '@/app/services/modeApi.js';
+
 
 export const setMode = createAsyncThunk(
   'mode/setMode',
-  async ({ childId, modeType }, { rejectWithValue }) => {
+  async ({ modeType }, { rejectWithValue }) => {
     try {
-      console.log(`setMode thunk başlatıldı: ${modeType}, childId: ${childId}`);
-      
-      if (!childId) throw new Error('childId bulunamadı.');
+      console.log(`setMode thunk başlatıldı: ${modeType}`);
+
+      const childId = await getChildIdFromToken();
+      if (!childId) {
+        throw new Error('childId bulunamadı.');
+      }
 
       const kidsModeDto = {
-        ChildId: childId, 
+        ChildId: childId,
         Mode: modeType.charAt(0).toUpperCase() + modeType.slice(1).toLowerCase(),
       };
 
@@ -35,12 +44,17 @@ export const setMode = createAsyncThunk(
   }
 );
 
-
 export const fetchMode = createAsyncThunk(
   'mode/fetchMode',
-  async ({ childId }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      console.log('fetchMode thunk başlatıldı, childId:', childId);
+      console.log('fetchMode thunk başlatıldı');
+      
+      const childId = await getChildIdFromToken();
+      if (!childId) {
+        throw new Error('childId bulunamadı.');
+      }
+
       const response = await getKidsMode(childId);
       console.log('fetchMode başarılı:', response);
       return response;
@@ -66,7 +80,7 @@ const modeSlice = createSlice({
       })
       .addCase(setMode.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.currentMode = action.payload.Mode; 
+        state.currentMode = action.payload.mode || action.payload.Mode; 
       })
       .addCase(setMode.rejected, (state, action) => {
         state.status = 'failed';
@@ -78,7 +92,7 @@ const modeSlice = createSlice({
       })
       .addCase(fetchMode.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.currentMode = action.payload.Mode; 
+        state.currentMode = action.payload.mode || action.payload.Mode; 
       })
       .addCase(fetchMode.rejected, (state, action) => {
         state.status = 'failed';

@@ -146,12 +146,12 @@ namespace KidsAppBackend.Data.Migrations
             migrationBuilder.InsertData(
                 table: "ChildUsers",
                 columns: new[] { "Id", "CreatedAt", "Email", "ModifiedDate", "ParentUserName", "Password", "UpdatedAt", "Username" },
-                values: new object[] { 1, new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7540), "child1@example.com", null, "Parent1", "Test123", null, "Child1" });
+                values: new object[] { 1, new DateTime(2025, 1, 16, 23, 22, 31, 290, DateTimeKind.Local).AddTicks(3350), "child1@example.com", null, "Parent1", "Test123", null, "Child1" });
 
             migrationBuilder.InsertData(
                 table: "GameResults",
                 columns: new[] { "Id", "ChildId", "CreatedAt", "DatePlayed", "GameType", "ModifiedDate", "Score", "UpdatedAt" },
-                values: new object[] { 1, 1, new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7650), new DateTime(2025, 1, 15, 23, 3, 40, 430, DateTimeKind.Local).AddTicks(7650), 0, null, 85, null });
+                values: new object[] { 1, 1, new DateTime(2025, 1, 16, 23, 22, 31, 290, DateTimeKind.Local).AddTicks(3450), new DateTime(2025, 1, 16, 23, 22, 31, 290, DateTimeKind.Local).AddTicks(3450), 0, null, 85, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_GameResults_ChildId",

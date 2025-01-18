@@ -70,9 +70,10 @@ namespace KidsAppBackend.Data.Repositories
             entity.UpdatedAt = DateTime.Now;
             _dbSet.Update(entity);
         }
-         public async Task<TEntity> GetEntityAsync(int id)
+        public async Task<TEntity?> GetEntityAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet.FirstOrDefaultAsync(e => e.Id == id && !e.IsDeleted);
         }
+
     }
 }
