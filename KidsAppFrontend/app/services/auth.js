@@ -37,23 +37,14 @@ export const login = async (email, password) => {
 
     const { isSucced, token, message, childId } = response.data;
 
-    if (!isSucced) {
-      throw new Error(message || 'Giriş başarısız.');
-    }
-
+  
     if (token) {
       try {
         const payload = jwtDecode(token);
-
-        if (!payload || !payload.sub) {
-          throw new Error('Geçersiz token formatı');
-        }
-
         await AsyncStorage.setItem('token', token);
         console.log('Token başarıyla kaydedildi');
       } catch (error) {
         console.error('Token doğrulama hatası:', error);
-        throw new Error('Sunucudan geçersiz token alındı');
       }
     }
 
@@ -65,7 +56,6 @@ export const login = async (email, password) => {
     return response.data;
   } catch (error) {
     console.error('Giriş hatası:', error);
-    throw error;
   }
 };
 
