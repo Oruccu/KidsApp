@@ -10,8 +10,12 @@ import useTheme from '@/app/hooks/useTheme';
 import color from '@/app/styles/color';
 import UserButton from '@/app/components/settingsComponents/UserButton';
 import styles from './styles';
+import api from '@/app/services/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-const Settings = ({ navigation }) => {
+const Settings = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const currentMode = useSelector((state) => state.mode.currentMode);
   const themeColors = useTheme();
@@ -20,19 +24,19 @@ const Settings = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  // Mod durumuna göre dinamik renkler:
+
   const buttonBackgroundColor =
     currentMode === 'Boy'
       ? color.BoyColors.Primary
       : color.GirlColors.Primary;
 
-  // Input container'ın arka plan rengi:
+
   const inputBackgroundColor =
     currentMode === 'Boy'
       ? color.BoyColors.Primary
       : color.GirlColors.Primary;
 
-  // Buton üzerindeki metin rengi:
+
   const buttonTextColor =
     currentMode === 'Boy'
       ? color.GirlColors.Primary
@@ -48,8 +52,7 @@ const Settings = ({ navigation }) => {
 
   const handleLogout = async () => {
     try {
-      Alert.alert('Success', 'You have been logged out.');
-      navigation.replace('SignIn');
+      navigation.navigate('Stack');
     } catch (error) {
       Alert.alert('Error', error.message);
     }
@@ -57,12 +60,29 @@ const Settings = ({ navigation }) => {
 
   const handleDeleteAccount = async () => {
     try {
-      await api.delete('/api/auth/deleteAccount');
+
+      const token = await AsyncStorage.getItem('token');
+      if (!token) {
+        throw new Error('No token found. Please log in again.');
+      }
+  
+      await api.delete('/api/auth/deleteAccount', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('childId'); 
+  
       Alert.alert('Account deleted');
-      navigation.replace('SignIn');
+      navigation.navigate('Stack');
     } catch (error) {
-      Alert.alert('Error', error.message);
+      console.error('Error deleting account:', error);
+  
+      const errorMessage =
+        error.response?.data?.message || 'Failed to delete account. Please try again.';
+      Alert.alert('Error', errorMessage);
     }
   };
 

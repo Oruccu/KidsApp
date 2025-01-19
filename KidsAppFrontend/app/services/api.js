@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
+import jwtDecode from 'jwt-decode';
 
 const API_BASE_URL = Platform.select({
   ios: 'http://127.0.0.1:5166',
@@ -24,7 +25,6 @@ api.interceptors.request.use(
       const cleanToken = token.trim();
       config.headers.Authorization = `Bearer ${cleanToken}`;
       
-      // Token'ı decode et ve kontrol et
       try {
         const base64Url = cleanToken.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -37,7 +37,6 @@ api.interceptors.request.use(
         
         if (!payload.sub) {
           console.error('Token does not contain sub claim');
-          // Token geçersizse storage'dan sil
           await AsyncStorage.removeItem('token');
           throw new Error('Invalid token');
         }
@@ -76,6 +75,8 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+
 
 export const getChildId = async () => {
   const childIdStr = await AsyncStorage.getItem('childId');
@@ -119,39 +120,38 @@ export const login = async (email, password) => {
     const { isSucced, token, message, childId } = response.data;
     
     if (!isSucced) {
-      throw new Error(message || 'Login failed.');
+      throw new Error(message || 'Giriş başarısız.');
     }
 
     if (token) {
-      // Token'ı kontrol et
       try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const payload = JSON.parse(atob(base64));
+        // jwtDecode yerine decodeToken kullanılıyor
+        const payload = decodeToken(token);
         
-        if (!payload.sub) {
-          throw new Error('Invalid token format');
+        if (!payload || !payload.sub) {
+          throw new Error('Geçersiz token formatı');
         }
         
         await AsyncStorage.setItem('token', token);
-        console.log('Token saved successfully');
+        console.log('Token başarıyla kaydedildi');
       } catch (error) {
-        console.error('Token validation error:', error);
-        throw new Error('Invalid token received from server');
+        console.error('Token doğrulama hatası:', error);
+        throw new Error('Sunucudan geçersiz token alındı');
       }
     }
 
     if (childId) {
       await AsyncStorage.setItem('childId', String(childId));
-      console.log('ChildId saved:', childId);
+      console.log('ChildId kaydedildi:', childId);
     }
 
     return response.data;
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Giriş hatası:', error);
     throw error;
   }
 };
+
 
 export const getAudioBookById = async (id) => {
   try {
@@ -181,5 +181,19 @@ export const logout = async () => {
     }
   }
 };
+export const deleteLoggedInUser = async () => {
+  try {
+    console.log('delete kısmında geldi');
+    const response = await axios.delete('/api/auth/deleteAccount', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    console.log('Delete success:', response.data);
+  } catch (error) {
+    console.error('Delete error:', error);
+  }
+};
+
 
 export default api;

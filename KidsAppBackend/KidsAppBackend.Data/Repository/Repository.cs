@@ -78,6 +78,9 @@ namespace KidsAppBackend.Data.Repositories
         {
             return await _dbSet.FirstOrDefaultAsync(e => e.Id == id && !e.IsDeleted);
         }
-
+        public void Remove(TEntity entity)
+        {
+            _dbSet.Remove(entity);
+        }
     }
 }

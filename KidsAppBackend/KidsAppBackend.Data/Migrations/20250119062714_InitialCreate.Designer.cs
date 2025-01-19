@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KidsAppBackend.Data.Migrations
 {
     [DbContext(typeof(KidsAppDbContext))]
-    [Migration("20250116202231_InitialCreate")]
+    [Migration("20250119062714_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -60,6 +60,24 @@ namespace KidsAppBackend.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AudioAnimals");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AnimalName = "Cat",
+                            AudioFileUrl = "http://example.com/audiofiles/cat_meow.mp3",
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2380),
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AnimalName = "Dog",
+                            AudioFileUrl = "http://example.com/audiofiles/dog_bark.mp3",
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2390),
+                            IsDeleted = false
+                        });
                 });
 
             modelBuilder.Entity("KidsAppBackend.Data.Entities.AudioBook", b =>
@@ -97,6 +115,24 @@ namespace KidsAppBackend.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AudioBooks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AudioFileUrl = "http://example.com/audiofiles/lionmouse.mp3",
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2370),
+                            IsDeleted = false,
+                            Title = "The Lion and The Mouse"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AudioFileUrl = "http://example.com/audiofiles/redridinghood.mp3",
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2370),
+                            IsDeleted = false,
+                            Title = "Little Red Riding Hood"
+                        });
                 });
 
             modelBuilder.Entity("KidsAppBackend.Data.Entities.ChildUser", b =>
@@ -132,6 +168,9 @@ namespace KidsAppBackend.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<int>("Score")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -148,12 +187,80 @@ namespace KidsAppBackend.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 16, 23, 22, 31, 290, DateTimeKind.Local).AddTicks(3350),
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2200),
                             Email = "child1@example.com",
                             IsDeleted = false,
                             ParentUserName = "Parent1",
                             Password = "Test123",
+                            Score = 0,
                             Username = "Child1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2250),
+                            Email = "child2@example.com",
+                            IsDeleted = false,
+                            ParentUserName = "Parent2",
+                            Password = "Test123",
+                            Score = 50,
+                            Username = "Child2"
+                        });
+                });
+
+            modelBuilder.Entity("KidsAppBackend.Data.Entities.ChildUserAudioBook", b =>
+                {
+                    b.Property<int>("ChildUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AudioBookId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("ChildUserId", "AudioBookId");
+
+                    b.HasIndex("AudioBookId");
+
+                    b.ToTable("ChildUserAudioBooks");
+
+                    b.HasData(
+                        new
+                        {
+                            ChildUserId = 1,
+                            AudioBookId = 1,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2400),
+                            Id = 0,
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            ChildUserId = 1,
+                            AudioBookId = 2,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2400),
+                            Id = 0,
+                            IsDeleted = false
+                        },
+                        new
+                        {
+                            ChildUserId = 2,
+                            AudioBookId = 1,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2400),
+                            Id = 0,
+                            IsDeleted = false
                         });
                 });
 
@@ -202,11 +309,31 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 1,
                             ChildId = 1,
-                            CreatedAt = new DateTime(2025, 1, 16, 23, 22, 31, 290, DateTimeKind.Local).AddTicks(3450),
-                            DatePlayed = new DateTime(2025, 1, 16, 23, 22, 31, 290, DateTimeKind.Local).AddTicks(3450),
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2330),
+                            DatePlayed = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2330),
                             GameType = 0,
                             IsDeleted = false,
                             Score = 85
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ChildId = 1,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2330),
+                            DatePlayed = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2330),
+                            GameType = 1,
+                            IsDeleted = false,
+                            Score = 90
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ChildId = 2,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2340),
+                            DatePlayed = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2340),
+                            GameType = 0,
+                            IsDeleted = false,
+                            Score = 70
                         });
                 });
 
@@ -245,6 +372,24 @@ namespace KidsAppBackend.Data.Migrations
                     b.HasIndex("ChildId");
 
                     b.ToTable("KidsModes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ChildId = 1,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2310),
+                            IsDeleted = false,
+                            Mode = "Girl"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ChildId = 2,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2320),
+                            IsDeleted = false,
+                            Mode = "Boy"
+                        });
                 });
 
             modelBuilder.Entity("KidsAppBackend.Data.Entities.StoryProgress", b =>
@@ -283,6 +428,45 @@ namespace KidsAppBackend.Data.Migrations
                     b.HasIndex("ChildId");
 
                     b.ToTable("StoryProgresses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ChildId = 1,
+                            CompletionPercentage = 50,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2350),
+                            IsDeleted = false,
+                            StoryId = 101
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ChildId = 2,
+                            CompletionPercentage = 100,
+                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2350),
+                            IsDeleted = false,
+                            StoryId = 102
+                        });
+                });
+
+            modelBuilder.Entity("KidsAppBackend.Data.Entities.ChildUserAudioBook", b =>
+                {
+                    b.HasOne("KidsAppBackend.Data.Entities.AudioBook", "AudioBook")
+                        .WithMany()
+                        .HasForeignKey("AudioBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KidsAppBackend.Data.Entities.ChildUser", "ChildUser")
+                        .WithMany()
+                        .HasForeignKey("ChildUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AudioBook");
+
+                    b.Navigation("ChildUser");
                 });
 
             modelBuilder.Entity("KidsAppBackend.Data.Entities.GameResult", b =>

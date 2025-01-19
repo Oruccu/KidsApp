@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using KidsAppBackend.WebApi.Models;
 using KidsAppBackend.Business.Utilities;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KidsAppBackend.WebApi.Controllers
 {
@@ -21,6 +23,7 @@ namespace KidsAppBackend.WebApi.Controllers
             _tokenBlacklist = tokenBlacklist;
         }
 
+        // ------------------- Kayıt (Register) -------------------
         [HttpPost("registerChild")]
         public async Task<IActionResult> RegisterChild([FromBody] ChildRegisterRequest request)
         {
@@ -28,6 +31,7 @@ namespace KidsAppBackend.WebApi.Controllers
             {
                 return BadRequest("Invalid data.");
             }
+
             var addChildDto = new AddChildDto
             {
                 Email = request.Email,
@@ -35,6 +39,7 @@ namespace KidsAppBackend.WebApi.Controllers
                 UserName = request.UserName,
                 ParentUserName = request.ParentUserName,
             };
+
             var result = await _userService.AddChild(addChildDto);
             if (!result.IsSucced)
             {
@@ -43,6 +48,7 @@ namespace KidsAppBackend.WebApi.Controllers
             return Ok(new { IsSucced = result.IsSucced, Message = result.Message });
         }
 
+        // ------------------- Giriş (Login) -------------------
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
@@ -55,14 +61,77 @@ namespace KidsAppBackend.WebApi.Controllers
                 Email = request.Email,
                 Password = request.Password,
             };
+
             var result = await _userService.Login(loginDto);
             if (!result.IsSucced)
             {
                 return BadRequest(result.Message);
             }
-            return Ok(new { IsSucced = result.IsSucced, Token = result.Token, Message = result.Message, ChildId = result.ChildId });
+
+            return Ok(new
+            {
+                IsSucced = result.IsSucced,
+                Token = result.Token,
+                Message = result.Message,
+                ChildId = result.ChildId
+            });
         }
 
+        // ------------------- Parent Login -------------------
+        [HttpPost("parentLogin")]
+        public async Task<IActionResult> ParentLogin([FromBody] ParentLoginRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+
+            var loginDto = new LoginDto
+            {
+                Email = request.Email,
+                Password = request.Password
+            };
+
+            var result = await _userService.ParentLogin(loginDto);
+            if (!result.IsSucced)
+            {
+                return BadRequest(result.Message);
+            }
+
+            return Ok(new
+            {
+                IsSucced = result.IsSucced,
+                Token = result.Token,
+                UserName = result.UserName,
+                Message = result.Message
+            });
+        }
+
+        // ------------------- Çıkış (Logout) -------------------
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            var token = HttpContext.Request.Headers["Authorization"]
+                                     .FirstOrDefault()?.Split(" ").Last();
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest("Token is required for logout.");
+            }
+
+            _tokenBlacklist.AddToBlacklist(token);
+            return Ok(new { Message = "Logout successful." });
+        }
+
+        [HttpPost("{id}/logout")]
+        public async Task<IActionResult> LogoutById(int id)
+        {
+            var result = await _userService.LogoutById(id);
+            if (!result.IsSucced) return BadRequest(result.Message);
+            return Ok(result.Message);
+        }
+
+        // ------------------- Geçerli Kullanıcı -------------------
         [HttpGet("getCurrentUser")]
         public IActionResult GetCurrentUser()
         {
@@ -72,55 +141,6 @@ namespace KidsAppBackend.WebApi.Controllers
                 return Unauthorized("User is not logged in or token is invalid.");
             }
             return Ok(new { UserName = username });
-        }
-
-        [HttpPost("parentLogin")]
-        public async Task<IActionResult> ParentLogin([FromBody] ParentLoginRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Invalid data.");
-            }
-            var loginDto = new LoginDto
-            {
-                Email = request.Email,
-                Password = request.Password
-            };
-            var result = await _userService.ParentLogin(loginDto);
-            if (!result.IsSucced)
-            {
-                return BadRequest(result.Message);
-            }
-            return Ok(new { IsSucced = result.IsSucced, Token = result.Token, UserName = result.UserName, Message = result.Message });
-        }
-
-        [HttpPost("logout")]
-        public IActionResult Logout()
-        {
-            var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            if (string.IsNullOrEmpty(token))
-            {
-                return BadRequest("Token is required for logout.");
-            }
-            _tokenBlacklist.AddToBlacklist(token);
-            return Ok(new { Message = "Logout successful." });
-        }
-
-        [HttpDelete("deleteAccount")]
-        public async Task<IActionResult> DeleteAccount()
-        {
-            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            if (string.IsNullOrEmpty(userIdClaim))
-            {
-                return Unauthorized("User not found.");
-            }
-            int userId = int.Parse(userIdClaim);
-            var result = await _userService.DeleteUserAsync(userId);
-            if (!result.IsSucced)
-            {
-                return BadRequest(result.Message);
-            }
-            return Ok(new { Message = result.Message });
         }
     }
 }

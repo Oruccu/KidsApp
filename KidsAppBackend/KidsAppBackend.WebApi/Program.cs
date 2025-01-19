@@ -9,9 +9,13 @@ using KidsAppBackend.Data;
 using KidsAppBackend.Business.Utilities;
 using KidsAppBackend.WebApi.Middleware;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
+using System.IdentityModel.Tokens.Jwt;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
@@ -59,15 +63,16 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false,
         ValidateLifetime = true,
         ClockSkew = TimeSpan.Zero,
-        NameClaimType = JwtRegisteredClaimNames.Sub
     };
 
     cfg.Events = new JwtBearerEvents
     {
-        OnTokenValidated = async context =>
+        OnTokenValidated = context =>
         {
             var userId = context.Principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
             Console.WriteLine($"Token validated for user: {userId}");
+
+            return Task.CompletedTask;
         },
         OnAuthenticationFailed = context =>
         {
@@ -78,8 +83,6 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
-builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -95,7 +98,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -103,12 +105,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<TokenValidationMiddleware>();
+
 app.UseCors();
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();

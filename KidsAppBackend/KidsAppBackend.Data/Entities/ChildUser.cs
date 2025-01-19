@@ -10,7 +10,7 @@ namespace KidsAppBackend.Data.Entities
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public string ParentUserName { get; set; }
-
+        public int Score { get; set; }
         public ICollection<GameResult> GameResults { get; set; } = new List<GameResult>();
         public ICollection<StoryProgress> StoryProgresses { get; set; } = new List<StoryProgress>();
     }

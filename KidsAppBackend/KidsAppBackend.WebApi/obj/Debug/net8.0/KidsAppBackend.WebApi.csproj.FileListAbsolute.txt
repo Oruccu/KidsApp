@@ -123,3 +123,5 @@
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.pdb
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/KidsAppBackend.WebApi.genruntimeconfig.cache
 /Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/obj/Debug/net8.0/ref/KidsAppBackend.WebApi.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
+/Users/aysenuroruccu/Desktop/KidsApp/KidsAppBackend/KidsAppBackend.WebApi/bin/Debug/net8.0/Newtonsoft.Json.dll

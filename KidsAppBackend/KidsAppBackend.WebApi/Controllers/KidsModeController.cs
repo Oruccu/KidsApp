@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization; 
+using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using KidsAppBackend.Business.Operations.User;
@@ -31,15 +31,10 @@ namespace KidsAppBackend.Api.Controllers
                     _logger.LogError("Invalid or missing user ID in token");
                     return Unauthorized(new { Message = "Invalid token" });
                 }
-
-                // Token'dan gelen ID'yi kullan
                 kidsModeDto.ChildId = userId;
-                
-                // Önce mevcut kaydı kontrol et
                 var existingMode = await _userService.GetKidsModeByIdAsync(userId);
                 if (existingMode != null)
                 {
-                    // Kayıt varsa güncelle
                     var result = await _userService.UpdateKidsModeAsync(kidsModeDto);
                     return Ok(result);
                 }
@@ -55,6 +50,14 @@ namespace KidsAppBackend.Api.Controllers
             }
         }
 
+        [HttpPost("{childId}/kidsMode")]
+        public async Task<IActionResult> AddKidsMode(int childId, [FromBody] KidsModeDto dto)
+        {
+            var result = await _userService.AddKidsMode(childId, dto);
+            if (!result.IsSucced) return BadRequest(result.Message);
+            return Ok(result.Message);
+        }
+
         [HttpPut("update")]
         public async Task<IActionResult> UpdateKidsMode([FromBody] KidsModeDto kidsModeDto)
         {
@@ -66,14 +69,12 @@ namespace KidsAppBackend.Api.Controllers
 
             try
             {
-                // Token'dan ChildId alıyoruz.
                 var userIdString = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
                 if (string.IsNullOrEmpty(userIdString))
                 {
                     return Unauthorized("Token does not contain 'sub' claim.");
                 }
 
-                // Güncellenen verinin asıl sahibinin ID'sini token'dan setliyoruz:
                 kidsModeDto.ChildId = int.Parse(userIdString);
 
                 var result = await _userService.UpdateKidsModeAsync(kidsModeDto);
@@ -92,6 +93,14 @@ namespace KidsAppBackend.Api.Controllers
             }
         }
 
+        [HttpPut("{childId}/kidsMode")]
+        public async Task<IActionResult> UpdateKidsMode(int childId, [FromBody] KidsModeDto dto)
+        {
+            var result = await _userService.UpdateKidsMode(childId, dto);
+            if (!result.IsSucced) return BadRequest(result.Message);
+            return Ok(result.Message);
+        }
+
         [HttpGet("{childId}")]
         public async Task<IActionResult> GetKidsMode(int childId)
         {
@@ -103,7 +112,6 @@ namespace KidsAppBackend.Api.Controllers
                     return Unauthorized(new { Message = "Invalid token" });
                 }
 
-                // Kendi verilerini mi görüntülüyor kontrol et
                 if (userId != childId)
                 {
                     return Forbid();
@@ -112,7 +120,6 @@ namespace KidsAppBackend.Api.Controllers
                 var result = await _userService.GetKidsModeByIdAsync(childId);
                 if (result == null)
                 {
-                    // Kayıt yoksa varsayılan olarak Girl modu oluştur
                     var defaultMode = new KidsModeDto
                     {
                         ChildId = childId,
@@ -129,5 +136,13 @@ namespace KidsAppBackend.Api.Controllers
                 return StatusCode(500, new { Message = ex.Message });
             }
         }
+        [HttpDelete("{childId}/kidsMode")]
+        public async Task<IActionResult> DeleteKidsMode(int childId)
+        {
+            var result = await _userService.DeleteKidsMode(childId);
+            if (!result.IsSucced) return BadRequest(result.Message);
+            return Ok(result.Message);
+        }
     }
+
 }
