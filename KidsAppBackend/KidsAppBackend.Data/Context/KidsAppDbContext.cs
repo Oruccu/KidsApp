@@ -39,7 +39,7 @@ namespace KidsAppBackend.Data
 
         private void SeedData(ModelBuilder modelBuilder)
         {
-            // -------------------- 1) ChildUser -----------------------
+
             modelBuilder.Entity<ChildUser>().HasData(
                 new ChildUser
                 {
@@ -63,7 +63,7 @@ namespace KidsAppBackend.Data
                 }
             );
 
-            // -------------------- 2) KidsMode -----------------------
+
             modelBuilder.Entity<KidsMode>().HasData(
                 new KidsMode
                 {
@@ -81,7 +81,7 @@ namespace KidsAppBackend.Data
                 }
             );
 
-            // -------------------- 3) GameResult -----------------------
+
             modelBuilder.Entity<GameResult>().HasData(
                 new GameResult
                 {
@@ -112,7 +112,7 @@ namespace KidsAppBackend.Data
                 }
             );
 
-            // -------------------- 4) StoryProgress -----------------------
+
             modelBuilder.Entity<StoryProgress>().HasData(
                 new StoryProgress
                 {
@@ -132,7 +132,7 @@ namespace KidsAppBackend.Data
                 }
             );
 
-            // -------------------- 5) AudioBook -----------------------
+
             modelBuilder.Entity<AudioBook>().HasData(
                 new AudioBook
                 {
@@ -168,8 +168,6 @@ namespace KidsAppBackend.Data
                 }
             );
 
-            // -------------------- 7) ChildUserAudioBook (Many-to-many Join) -----------------------
-          
 
             modelBuilder.Entity<ChildUserAudioBook>().HasData(
 

@@ -97,6 +97,10 @@ builder.Services.AddSwaggerGen();
 // CORS
 builder.Services.AddCors(options =>
 {
+    options.AddPolicy("AllowAllOrigins",
+       builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
     options.AddDefaultPolicy(builder =>
     {
         builder.AllowAnyOrigin()
@@ -117,8 +121,8 @@ if (app.Environment.IsDevelopment())
 // Middleware Pipeline
 app.UseCors();
 app.UseHttpsRedirection();
-app.UseAuthentication();    
-app.UseAuthorization();    
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.Run();

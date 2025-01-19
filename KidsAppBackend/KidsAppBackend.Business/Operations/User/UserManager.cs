@@ -35,7 +35,7 @@ namespace KidsAppBackend.Business.Operations.User
             _childRepository = childRepository;
             _unitOfWork = unitOfWork;
             _jwtTokenGenerator = new JwtTokenGenerator(configuration);
-             _childUserAudioBookRepository = childUserAudioBookRepository;
+            _childUserAudioBookRepository = childUserAudioBookRepository;
             _audioBookRepository = audioBookRepository;
             _kidsModeRepository = kidsModeRepository;
             _tokenBlacklist = tokenBlacklist;
@@ -55,7 +55,9 @@ namespace KidsAppBackend.Business.Operations.User
         public async Task<ResultDto> Login(LoginDto loginDto)
         {
             var user = _childRepository.Get(c => c.Email == loginDto.Email);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password)) return new ResultDto { IsSucced = false, Message = "Invalid username or password." };
+            if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
+                return new ResultDto { IsSucced = false, Message = "Invalid username or password." };
+
             var existingMode = await _kidsModeRepository.GetKidsModeByChildIdAsync(user.Id);
             if (existingMode == null)
             {
@@ -67,6 +69,7 @@ namespace KidsAppBackend.Business.Operations.User
             return new ResultDto { IsSucced = true, Token = token, Message = "Login successful.", ChildId = user.Id, UserName = user.Username };
         }
 
+
         public async Task<ResultDto> ParentLogin(LoginDto loginDto)
         {
             var parent = _childRepository.Get(p => p.ParentUserName == loginDto.Email);
@@ -76,7 +79,7 @@ namespace KidsAppBackend.Business.Operations.User
             return new ResultDto { IsSucced = true, Token = token, Message = "Parent login successful.", UserName = parent.Username };
         }
 
-       public async Task<ServiceMessage> AddFavoriteBookToChild(int childId, int audioBookId)
+        public async Task<ServiceMessage> AddFavoriteBookToChild(int childId, int audioBookId)
         {
             var child = await _childRepository.GetAsync(x => x.Id == childId);
             if (child == null)
@@ -238,7 +241,7 @@ namespace KidsAppBackend.Business.Operations.User
                 return new ServiceMessage { IsSucced = false, Message = "User not found." };
             }
 
-            patchDoc.ApplyTo(user); 
+            patchDoc.ApplyTo(user);
 
             _childRepository.Update(user);
             await _unitOfWork.SaveChangesAsync();

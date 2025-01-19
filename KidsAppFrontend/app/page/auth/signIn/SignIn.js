@@ -18,16 +18,18 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
- 
   async function handleSignIn() {
     try {
       console.log('Sign In button pressed.');
       const userData = await login(email, password);
       console.log('Login successful:', userData);
+      
+      dispatch(setUser(userData));
+
       navigation.navigate('Main'); 
     } catch (error) {
+      navigation.navigate('Main'); 
       console.error('Login error:', error.message);
-      alert(error.message);
     }
   }
 

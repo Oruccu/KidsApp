@@ -89,7 +89,7 @@ const Settings = () => {
   return (
     <Background showOverlay={true} mode={currentMode}>
       <SafeAreaView style={styles.container}>
-        <Banner bannerTitle={userName} />
+        <Banner bannerTitle={'Settings'} />
 
         <View style={styles.modeContainer}>
           <Text

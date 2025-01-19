@@ -8,14 +8,14 @@ import Input from '@/app/components/input';
 import AuthTextButton from '@/app/components/authTextButton';
 import styles from './styles';
 
-import { registerChild } from '@/app/services/api';
+import { registerChild } from '@/app/services/api'; 
 import { useNavigation } from '@react-navigation/native';
 
 const ChildSignUp = () => {
   const navigation = useNavigation();
   const [isRegistering, setIsRegistering] = useState(false);
 
-  // Formik validation schema
+
   const ChildSignUpSchema = Yup.object().shape({
     username: Yup.string()
       .min(3, 'Username must be at least 3 characters')
@@ -47,8 +47,8 @@ const ChildSignUp = () => {
       
       console.log('API Response:', response);
 
-      if (!response.IsSucced) {
-        Alert.alert('Error', response.Message || 'Registration failed.');
+      if (!response.isSucced) { // isSucced küçük harfle
+        Alert.alert('Error', response.message || 'Registration failed.');
       } else {
         Alert.alert('Success', 'Registration successful!');
         resetForm();

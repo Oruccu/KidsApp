@@ -66,7 +66,6 @@ namespace KidsAppBackend.WebApi.Controllers
             return Ok(result.Message);
         }
 
-        // ----------------- Many-to-many example ----------------- //
         [HttpPost("{childId}/favorite-book/{audioBookId}")]
         public async Task<IActionResult> AddFavoriteBook(int childId, int audioBookId)
         {

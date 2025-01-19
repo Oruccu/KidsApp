@@ -38,7 +38,7 @@ namespace KidsAppBackend.Business.Utilities
             var token = new JwtSecurityToken(
                 claims: claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddDays(7),
                 signingCredentials: creds
             );
 
