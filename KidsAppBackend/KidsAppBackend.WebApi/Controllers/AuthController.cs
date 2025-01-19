@@ -12,6 +12,7 @@ namespace KidsAppBackend.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -25,6 +26,7 @@ namespace KidsAppBackend.WebApi.Controllers
 
         // ------------------- Kayıt (Register) -------------------
         [HttpPost("registerChild")]
+        [AllowAnonymous]
         public async Task<IActionResult> RegisterChild([FromBody] ChildRegisterRequest request)
         {
             if (!ModelState.IsValid)

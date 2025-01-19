@@ -1,11 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using KidsAppBackend.Business.Operations.User.Dtos;
 using KidsAppBackend.Business.Operations.User;
 
-namespace KidsAppBackend.WebApi.Controllers
+namespace KidsAppBackend.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous] // Tüm action'lar anonim erişime izin verir
     public class AudioAnimalController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -25,6 +27,5 @@ namespace KidsAppBackend.WebApi.Controllers
             }
             return Ok(result.Message);
         }
-
     }
 }

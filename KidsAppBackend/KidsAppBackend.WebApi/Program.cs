@@ -7,10 +7,8 @@ using KidsAppBackend.Business.Operations.User;
 using Microsoft.EntityFrameworkCore;
 using KidsAppBackend.Data;
 using KidsAppBackend.Business.Utilities;
-using KidsAppBackend.WebApi.Middleware;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +21,11 @@ var secretKey = jwtSettings["SecretKey"];
 Console.WriteLine($"JwtSettings Section Exists: {jwtSettings.Exists()}");
 Console.WriteLine($"SecretKey Value: {secretKey}");
 
+// Database Context
 builder.Services.AddDbContext<KidsAppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Dependency Injection
 builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -33,19 +33,24 @@ builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddScoped<IKidsModeRepository, KidsModeRepository>();
 builder.Services.AddSingleton<ITokenBlacklist, TokenBlacklist>();
 
-builder.Services.AddControllers()
-    .ConfigureApiBehaviorOptions(options =>
+// Controllers with Global Authorize Filter
+builder.Services.AddControllers(options =>
+{
+    // Tüm controller ve action'larda varsayılan olarak Authorize uygular
+    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter());
+})
+.ConfigureApiBehaviorOptions(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
     {
-        options.InvalidModelStateResponseFactory = context =>
-        {
-            var errors = context.ModelState.Values
-                .SelectMany(v => v.Errors)
-                .Select(e => e.ErrorMessage);
-            return new BadRequestObjectResult(new { Errors = errors });
-        };
-    });
+        var errors = context.ModelState.Values
+            .SelectMany(v => v.Errors)
+            .Select(e => e.ErrorMessage);
+        return new BadRequestObjectResult(new { Errors = errors });
+    };
+});
 
-
+// Authentication Configuration
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -82,10 +87,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Authorization
 builder.Services.AddAuthorization();
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
@@ -98,18 +107,18 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Development Middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<TokenValidationMiddleware>();
-
+// Middleware Pipeline
 app.UseCors();
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthentication();    
+app.UseAuthorization();    
 
 app.MapControllers();
 app.Run();

@@ -8,7 +8,6 @@ namespace KidsAppBackend.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // Tüm action'lar token ister
     public class KidsModeController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -101,6 +100,7 @@ namespace KidsAppBackend.Api.Controllers
             return Ok(result.Message);
         }
 
+
         [HttpGet("{childId}")]
         public async Task<IActionResult> GetKidsMode(int childId)
         {
@@ -136,6 +136,7 @@ namespace KidsAppBackend.Api.Controllers
                 return StatusCode(500, new { Message = ex.Message });
             }
         }
+
         [HttpDelete("{childId}/kidsMode")]
         public async Task<IActionResult> DeleteKidsMode(int childId)
         {
@@ -144,5 +145,4 @@ namespace KidsAppBackend.Api.Controllers
             return Ok(result.Message);
         }
     }
-
 }
