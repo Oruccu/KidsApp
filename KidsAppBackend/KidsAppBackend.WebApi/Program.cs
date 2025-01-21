@@ -28,7 +28,7 @@ builder.Services.AddDbContext<KidsAppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Dependency Injection
-builder.Services.AddScoped<JwtTokenGenerator>(); // Burada JwtTokenGenerator'ı DI'ye ekliyoruz
+builder.Services.AddScoped<JwtTokenGenerator>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserManager>();
