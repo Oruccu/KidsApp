@@ -40,7 +40,6 @@ builder.Services.AddScoped<ExecutionTimeFilter>();
 // Controllers with Global Authorize Filter
 builder.Services.AddControllers(options =>
 {
-    // Tüm controller ve action'larda varsayılan olarak Authorize uygular
     options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter());
 })
 .ConfigureApiBehaviorOptions(options =>
