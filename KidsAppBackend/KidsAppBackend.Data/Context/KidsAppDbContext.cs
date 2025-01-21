@@ -18,12 +18,14 @@ namespace KidsAppBackend.Data
         public DbSet<StoryProgress> StoryProgresses { get; set; }
         public DbSet<AudioBook> AudioBooks { get; set; }
         public DbSet<AudioAnimal> AudioAnimals { get; set; }
-        public DbSet<ChildUserAudioBook> ChildUserAudioBooks { get; set; } // Join tablo
+        public DbSet<ChildUserAudioBook> ChildUserAudioBooks { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
 
             modelBuilder.ApplyConfiguration(new ChildUserConfiguration());
             modelBuilder.ApplyConfiguration(new KidsModeConfiguration());
@@ -32,6 +34,8 @@ namespace KidsAppBackend.Data
             modelBuilder.ApplyConfiguration(new AudioBookConfiguration());
             modelBuilder.ApplyConfiguration(new AudioAnimalConfiguration());
             modelBuilder.ApplyConfiguration(new ChildUserAudioBookConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
 
 
             SeedData(modelBuilder);
@@ -46,7 +50,7 @@ namespace KidsAppBackend.Data
                     Id = 1,
                     Email = "child1@example.com",
                     Username = "Child1",
-                    Password = "Test123",      
+                    Password = "Test123",
                     ParentUserName = "Parent1",
                     Score = 0,
                     CreatedAt = DateTime.Now
@@ -59,6 +63,16 @@ namespace KidsAppBackend.Data
                     Password = "Test123",
                     ParentUserName = "Parent2",
                     Score = 50,
+                    CreatedAt = DateTime.Now
+                },
+                new ChildUser
+                {
+                    Id = 3,
+                    Email = "parent1@example.com",
+                    Username = "Parent1",
+                    Password = "ParentPass123",
+                    ParentUserName = string.Empty,
+                    Score = 0,
                     CreatedAt = DateTime.Now
                 }
             );

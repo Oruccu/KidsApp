@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using KidsAppBackend.Business.Operations.User.Dtos;
 using KidsAppBackend.Business.Operations.User;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "Parent,Child")] 
 public class AudioBookController : ControllerBase
 {
     private readonly IUserService _userService;

@@ -4,12 +4,6 @@ using KidsAppBackend.Data.Entities;
 using KidsAppBackend.Data.Repositories;
 using KidsAppBackend.Data.UnitOfWork;
 using KidsAppBackend.Business.Utilities;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.JsonPatch;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KidsAppBackend.Business.Operations.User
 {
@@ -30,11 +24,11 @@ namespace KidsAppBackend.Business.Operations.User
             IRepository<ChildUserAudioBook> childUserAudioBookRepository,
             IKidsModeRepository kidsModeRepository,
             ITokenBlacklist tokenBlacklist,
-            IConfiguration configuration)
+            JwtTokenGenerator jwtTokenGenerator) // DI ile enjekte edilen JwtTokenGenerator
         {
             _childRepository = childRepository;
             _unitOfWork = unitOfWork;
-            _jwtTokenGenerator = new JwtTokenGenerator(configuration);
+            _jwtTokenGenerator = jwtTokenGenerator; // Atama
             _childUserAudioBookRepository = childUserAudioBookRepository;
             _audioBookRepository = audioBookRepository;
             _kidsModeRepository = kidsModeRepository;
@@ -44,11 +38,21 @@ namespace KidsAppBackend.Business.Operations.User
         public async Task<ServiceMessage> AddChild(AddChildDto dto)
         {
             var existingChild = _childRepository.Get(c => c.Email == dto.Email);
-            if (existingChild != null) return new ServiceMessage { IsSucced = false, Message = "A child with this email already exists." };
+            if (existingChild != null)
+                return new ServiceMessage { IsSucced = false, Message = "A child with this email already exists." };
+
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-            var child = new ChildUser { Email = dto.Email, Username = dto.UserName, Password = hashedPassword, ParentUserName = dto.ParentUserName };
+            var child = new ChildUser
+            {
+                Email = dto.Email,
+                Username = dto.UserName,
+                Password = hashedPassword,
+                ParentUserName = dto.ParentUserName
+            };
+
             _childRepository.Add(child);
             await _unitOfWork.SaveChangesAsync();
+
             return new ServiceMessage { IsSucced = true, Message = "Child successfully added!" };
         }
 
@@ -61,20 +65,34 @@ namespace KidsAppBackend.Business.Operations.User
             var existingMode = await _kidsModeRepository.GetKidsModeByChildIdAsync(user.Id);
             if (existingMode == null)
             {
-                var defaultMode = new KidsMode { ChildId = user.Id, Mode = ModeType.Girl, UpdatedAt = DateTime.UtcNow };
+                var defaultMode = new KidsMode
+                {
+                    ChildId = user.Id,
+                    Mode = ModeType.Girl,
+                    UpdatedAt = DateTime.UtcNow
+                };
                 await _kidsModeRepository.CreateAsync(defaultMode);
                 await _unitOfWork.SaveChangesAsync();
             }
-            var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, user.Username);
-            return new ResultDto { IsSucced = true, Token = token, Message = "Login successful.", ChildId = user.Id, UserName = user.Username };
-        }
 
+            var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, user.Username);
+
+            return new ResultDto
+            {
+                IsSucced = true,
+                Token = token,
+                Message = "Login successful.",
+                ChildId = user.Id,
+                UserName = user.Username
+            };
+        }
 
         public async Task<ResultDto> ParentLogin(LoginDto loginDto)
         {
             var parent = _childRepository.Get(p => p.ParentUserName == loginDto.Email);
             if (parent == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, parent.Password))
                 return new ResultDto { IsSucced = false, Message = "Invalid parent credentials." };
+
             var token = _jwtTokenGenerator.GenerateToken(parent.Id, parent.Email, parent.Username);
             return new ResultDto { IsSucced = true, Token = token, Message = "Parent login successful.", UserName = parent.Username };
         }
@@ -104,11 +122,18 @@ namespace KidsAppBackend.Business.Operations.User
 
             return new ServiceMessage { IsSucced = true, Message = "Favorite book added successfully." };
         }
+
         public async Task<List<UserDto>> GetAllUsers()
         {
-            var users = _childRepository.GetAll().Select(x => new UserDto { Id = x.Id, Email = x.Email, UserName = x.Username }).ToList();
+            var users = _childRepository.GetAll().Select(x => new UserDto
+            {
+                Id = x.Id,
+                Email = x.Email,
+                UserName = x.Username
+            }).ToList();
             return users;
         }
+
         public async Task<ResultDto> GetFavoriteBooksOfChild(int childId)
         {
             var child = await _childRepository.GetAsync(x => x.Id == childId);
@@ -116,6 +141,7 @@ namespace KidsAppBackend.Business.Operations.User
             {
                 return new ResultDto { IsSucced = false, Message = "Child not found." };
             }
+
             var favoriteBookIds = _childUserAudioBookRepository
                                   .GetAll(x => x.ChildUserId == childId)
                                   .Select(x => x.AudioBookId);
@@ -142,6 +168,7 @@ namespace KidsAppBackend.Business.Operations.User
         {
             var audioBook = await _audioBookRepository.GetEntityAsync(id);
             if (audioBook == null) return new ResultDto { IsSucced = false, Message = "AudioBook bulunamadı." };
+
             var dto = new AudioBookDto { Title = audioBook.Title, AudioFileUrl = audioBook.AudioFileUrl };
             return new ResultDto { IsSucced = true, Message = "AudioBook başarıyla alındı.", Data = dto };
         }
@@ -150,10 +177,12 @@ namespace KidsAppBackend.Business.Operations.User
         {
             var user = _childRepository.Get(x => x.Id == id);
             if (user == null) return new ServiceMessage { IsSucced = false, Message = "User not found." };
+
             user.Username = dto.UserName;
             user.Email = dto.Email;
             _childRepository.Update(user);
             await _unitOfWork.SaveChangesAsync();
+
             return new ServiceMessage { IsSucced = true, Message = "User updated." };
         }
 
@@ -161,8 +190,10 @@ namespace KidsAppBackend.Business.Operations.User
         {
             var existingChild = await _childRepository.GetAsync(c => c.Id == userId);
             if (existingChild == null) return new ServiceMessage { IsSucced = false, Message = "User not found." };
+
             _childRepository.Remove(existingChild);
             await _unitOfWork.SaveChangesAsync();
+
             return new ServiceMessage { IsSucced = true, Message = "User deleted successfully." };
         }
 
@@ -170,8 +201,10 @@ namespace KidsAppBackend.Business.Operations.User
         {
             var user = _childRepository.Get(x => x.Id == id);
             if (user == null) return new ServiceMessage { IsSucced = false, Message = "User not found." };
+
             _childRepository.Remove(user);
             await _unitOfWork.SaveChangesAsync();
+
             return new ServiceMessage { IsSucced = true, Message = "User deleted." };
         }
 
@@ -179,14 +212,23 @@ namespace KidsAppBackend.Business.Operations.User
         {
             var user = _childRepository.Get(x => x.Id == id);
             if (user == null) return new ServiceMessage { IsSucced = false, Message = "User not found." };
+
             user.Score = dto.Score;
             _childRepository.Update(user);
             await _unitOfWork.SaveChangesAsync();
+
             return new ServiceMessage { IsSucced = true, Message = "Score set." };
         }
 
         public async Task<ServiceMessage> AddAnimalSound(CreateAnimalSoundDto dto)
         {
+            var audioAnimal = new AudioAnimal
+            {
+                AnimalName = dto.AnimalName,
+                AudioFileUrl = dto.SoundUrl,
+                CreatedAt = DateTime.UtcNow
+            };
+
             return new ServiceMessage { IsSucced = true, Message = "Animal sound added." };
         }
 
@@ -212,10 +254,19 @@ namespace KidsAppBackend.Business.Operations.User
 
         public async Task<KidsModeDto> CreateKidsModeAsync(KidsModeDto kidsModeDto)
         {
-            if (!Enum.TryParse<ModeType>(kidsModeDto.Mode, true, out var mode)) throw new ArgumentException("Invalid mode value.");
-            var kidsMode = new KidsMode { ChildId = kidsModeDto.ChildId, Mode = mode, UpdatedAt = DateTime.Now };
+            if (!Enum.TryParse<ModeType>(kidsModeDto.Mode, true, out var mode))
+                throw new ArgumentException("Invalid mode value.");
+
+            var kidsMode = new KidsMode
+            {
+                ChildId = kidsModeDto.ChildId,
+                Mode = mode,
+                UpdatedAt = DateTime.Now
+            };
+
             await _kidsModeRepository.CreateAsync(kidsMode);
             await _unitOfWork.SaveChangesAsync();
+
             return kidsModeDto;
         }
 
@@ -223,12 +274,19 @@ namespace KidsAppBackend.Business.Operations.User
         {
             var kidsMode = await _kidsModeRepository.GetKidsModeByChildIdAsync(childId);
             if (kidsMode == null) return null;
-            return new KidsModeDto { ChildId = kidsMode.ChildId, Mode = kidsMode.Mode.ToString() };
+
+            return new KidsModeDto
+            {
+                ChildId = kidsMode.ChildId,
+                Mode = kidsMode.Mode.ToString()
+            };
         }
 
         public async Task<KidsModeDto?> UpdateKidsModeAsync(KidsModeDto kidsModeDto)
         {
-            if (!Enum.TryParse<ModeType>(kidsModeDto.Mode, true, out var mode)) throw new ArgumentException("Invalid mode value.");
+            if (!Enum.TryParse<ModeType>(kidsModeDto.Mode, true, out var mode))
+                throw new ArgumentException("Invalid mode value.");
+
             await _kidsModeRepository.UpdateKidsModeAsync(kidsModeDto.ChildId, mode);
             return kidsModeDto;
         }

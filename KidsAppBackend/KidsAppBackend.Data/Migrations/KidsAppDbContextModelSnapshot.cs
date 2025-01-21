@@ -64,7 +64,7 @@ namespace KidsAppBackend.Data.Migrations
                             Id = 1,
                             AnimalName = "Cat",
                             AudioFileUrl = "http://example.com/audiofiles/cat_meow.mp3",
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2380),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5840),
                             IsDeleted = false
                         },
                         new
@@ -72,7 +72,7 @@ namespace KidsAppBackend.Data.Migrations
                             Id = 2,
                             AnimalName = "Dog",
                             AudioFileUrl = "http://example.com/audiofiles/dog_bark.mp3",
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2390),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5840),
                             IsDeleted = false
                         });
                 });
@@ -118,7 +118,7 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 1,
                             AudioFileUrl = "http://example.com/audiofiles/lionmouse.mp3",
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2370),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5820),
                             IsDeleted = false,
                             Title = "The Lion and The Mouse"
                         },
@@ -126,7 +126,7 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 2,
                             AudioFileUrl = "http://example.com/audiofiles/redridinghood.mp3",
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2370),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5820),
                             IsDeleted = false,
                             Title = "Little Red Riding Hood"
                         });
@@ -149,21 +149,20 @@ namespace KidsAppBackend.Data.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("ParentUserName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<int>("Score")
                         .HasColumnType("integer");
@@ -184,7 +183,7 @@ namespace KidsAppBackend.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2200),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5700),
                             Email = "child1@example.com",
                             IsDeleted = false,
                             ParentUserName = "Parent1",
@@ -195,13 +194,24 @@ namespace KidsAppBackend.Data.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2250),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5740),
                             Email = "child2@example.com",
                             IsDeleted = false,
                             ParentUserName = "Parent2",
                             Password = "Test123",
                             Score = 50,
                             Username = "Child2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5740),
+                            Email = "parent1@example.com",
+                            IsDeleted = false,
+                            ParentUserName = "",
+                            Password = "ParentPass123",
+                            Score = 0,
+                            Username = "Parent1"
                         });
                 });
 
@@ -239,7 +249,7 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             ChildUserId = 1,
                             AudioBookId = 1,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2400),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5850),
                             Id = 0,
                             IsDeleted = false
                         },
@@ -247,7 +257,7 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             ChildUserId = 1,
                             AudioBookId = 2,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2400),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5850),
                             Id = 0,
                             IsDeleted = false
                         },
@@ -255,7 +265,7 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             ChildUserId = 2,
                             AudioBookId = 1,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2400),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5850),
                             Id = 0,
                             IsDeleted = false
                         });
@@ -306,8 +316,8 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 1,
                             ChildId = 1,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2330),
-                            DatePlayed = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2330),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5780),
+                            DatePlayed = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5780),
                             GameType = 0,
                             IsDeleted = false,
                             Score = 85
@@ -316,8 +326,8 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 2,
                             ChildId = 1,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2330),
-                            DatePlayed = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2330),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5780),
+                            DatePlayed = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5780),
                             GameType = 1,
                             IsDeleted = false,
                             Score = 90
@@ -326,8 +336,8 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 3,
                             ChildId = 2,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2340),
-                            DatePlayed = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2340),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5790),
+                            DatePlayed = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5790),
                             GameType = 0,
                             IsDeleted = false,
                             Score = 70
@@ -375,7 +385,7 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 1,
                             ChildId = 1,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2310),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5760),
                             IsDeleted = false,
                             Mode = "Girl"
                         },
@@ -383,9 +393,57 @@ namespace KidsAppBackend.Data.Migrations
                         {
                             Id = 2,
                             ChildId = 2,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2320),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5760),
                             IsDeleted = false,
                             Mode = "Boy"
+                        });
+                });
+
+            modelBuilder.Entity("KidsAppBackend.Data.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "Parent"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "Child"
                         });
                 });
 
@@ -432,7 +490,7 @@ namespace KidsAppBackend.Data.Migrations
                             Id = 1,
                             ChildId = 1,
                             CompletionPercentage = 50,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2350),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5800),
                             IsDeleted = false,
                             StoryId = 101
                         },
@@ -441,9 +499,36 @@ namespace KidsAppBackend.Data.Migrations
                             Id = 2,
                             ChildId = 2,
                             CompletionPercentage = 100,
-                            CreatedAt = new DateTime(2025, 1, 19, 9, 27, 14, 307, DateTimeKind.Local).AddTicks(2350),
+                            CreatedAt = new DateTime(2025, 1, 21, 21, 29, 44, 815, DateTimeKind.Local).AddTicks(5800),
                             IsDeleted = false,
                             StoryId = 102
+                        });
+                });
+
+            modelBuilder.Entity("KidsAppBackend.Data.Entities.UserRole", b =>
+                {
+                    b.Property<int>("ChildUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ChildUserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            ChildUserId = 1,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            ChildUserId = 2,
+                            RoleId = 2
                         });
                 });
 
@@ -499,11 +584,32 @@ namespace KidsAppBackend.Data.Migrations
                     b.Navigation("Child");
                 });
 
+            modelBuilder.Entity("KidsAppBackend.Data.Entities.UserRole", b =>
+                {
+                    b.HasOne("KidsAppBackend.Data.Entities.ChildUser", "ChildUser")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ChildUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KidsAppBackend.Data.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ChildUser");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("KidsAppBackend.Data.Entities.ChildUser", b =>
                 {
                     b.Navigation("GameResults");
 
                     b.Navigation("StoryProgresses");
+
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

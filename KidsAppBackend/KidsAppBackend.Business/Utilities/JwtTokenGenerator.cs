@@ -32,7 +32,6 @@ namespace KidsAppBackend.Business.Utilities
                 new Claim(JwtRegisteredClaimNames.Email, email),
                 new Claim(JwtRegisteredClaimNames.UniqueName, userName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-
             };
 
             var token = new JwtSecurityToken(

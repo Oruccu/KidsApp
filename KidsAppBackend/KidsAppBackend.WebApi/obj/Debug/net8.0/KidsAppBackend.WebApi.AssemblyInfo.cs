@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KidsAppBackend.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e7b2da3c4530d472ce464f9b4dee0ab88f58fcd3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+22df9dfb3cd4a2cb65e6398efd17188391849e3e")]
 [assembly: System.Reflection.AssemblyProductAttribute("KidsAppBackend.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KidsAppBackend.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -7,6 +7,7 @@ using KidsAppBackend.WebApi.Models;
 using KidsAppBackend.Business.Utilities;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
+using KidsAppBackend.WebApi.Filters;
 
 namespace KidsAppBackend.WebApi.Controllers
 {
@@ -27,6 +28,7 @@ namespace KidsAppBackend.WebApi.Controllers
         // ------------------- Kayıt (Register) -------------------
         [HttpPost("registerChild")]
         [AllowAnonymous]
+        [ServiceFilter(typeof(ExecutionTimeFilter))]
         public async Task<IActionResult> RegisterChild([FromBody] ChildRegisterRequest request)
         {
             if (!ModelState.IsValid)

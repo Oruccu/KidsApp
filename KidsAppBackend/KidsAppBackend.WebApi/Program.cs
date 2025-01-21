@@ -9,6 +9,8 @@ using KidsAppBackend.Data;
 using KidsAppBackend.Business.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using KidsAppBackend.WebApi.Middleware;
+using KidsAppBackend.WebApi.Filters; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +28,14 @@ builder.Services.AddDbContext<KidsAppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Dependency Injection
-builder.Services.AddScoped<JwtTokenGenerator>();
+builder.Services.AddScoped<JwtTokenGenerator>(); // Burada JwtTokenGenerator'ı DI'ye ekliyoruz
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddScoped<IKidsModeRepository, KidsModeRepository>();
 builder.Services.AddSingleton<ITokenBlacklist, TokenBlacklist>();
+builder.Services.AddScoped<JwtTokenGenerator>();
+builder.Services.AddScoped<ExecutionTimeFilter>();
 
 // Controllers with Global Authorize Filter
 builder.Services.AddControllers(options =>
@@ -119,6 +123,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Middleware Pipeline
+app.UseMiddleware<RequestLoggingMiddleware>(); 
 app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
